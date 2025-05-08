@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-themed">
+<nav class="navbar navbar-expand-lg navbar-light">
 
   <a class="navbar-brand" href="{{ site.baseurl }}/"><h5><b>{{ site.title }}</b></h5></a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <i class="fas fa-1x fa-bars text-themed"></i>
+    <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -18,12 +18,17 @@
 
         {%- for exclude_path in site.nav_exclude -%}
 
-          {%- if exclude_path == html_page.path -%}
+          {%- if html_page.path == exclude_path -%}
             {%- assign exclude = true -%}
             {%- break -%}
-          {%- elsif exclude_path contains '**' -%}
-            {%- assign match = exclude_path | remove: '**' -%}
-            {%- if html_page.path contains match -%}
+          {%- else if exclude_path contains ':num' -%}
+            {%- assign temp = html_page.path -%}
+            {%- assign parts = exclude_path | split: ':num' -%}
+            {%- for part in parts -%}
+              {%- assign temp = temp | remove: part -%}
+            {%- endfor -%}
+            {%- assign test_num = temp | plus: 0 | downcase -%}
+            {%- if temp == test_num -%}
               {%- assign exclude = true -%}
               {%- break -%}
             {%- endif -%}
@@ -36,6 +41,7 @@
         {%- endunless -%}
 
       {%- endfor -%}
+
 
       {% for html_page in filtered_pages %}  
 
@@ -55,7 +61,6 @@
 
       {% endfor %}
 
-      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
     </div>
   </div>
 

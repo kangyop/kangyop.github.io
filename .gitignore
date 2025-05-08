@@ -1,6 +1,16 @@
-# Ruby Gems
-*.gem
+# Local Site Directories
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
 
-# Design Files
+# Ruby Gem
+*.gem
+.bundle
+Gemfile.lock
+
+# Photoshop Documents
 *.psd
-*.ai
+
+# Log Files
+*.log
