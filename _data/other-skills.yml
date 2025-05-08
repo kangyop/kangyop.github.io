@@ -1,0 +1,7 @@
+- name: CorelDRAW
+  percentage: 94
+  color: success
+
+- name: Inkscape
+  percentage: 98
+  color: success

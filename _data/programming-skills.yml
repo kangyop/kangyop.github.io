@@ -1,0 +1,12 @@
+
+- name: Bash / Shell
+  percentage: 74
+  color: danger
+
+- name: C#
+  percentage: 60
+  color: secondary
+
+- name: HTML, CSS, Javascript
+  percentage: 45
+  color: danger

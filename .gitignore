@@ -1,6 +1,16 @@
-# Ruby Gems
-*.gem
+# Local Site Directories
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
 
-# Design Files
-*.psd
-*.ai
+# Ruby Gems
+.bundle
+Gemfile.lock
+
+# Log Files
+*.log
+
+example_posts
+_posts/2021-08-09-clash-for-android.md
+helmiau/config-example-helmiau.yaml

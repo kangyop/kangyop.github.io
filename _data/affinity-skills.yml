@@ -1,0 +1,11 @@
+- name: Designer
+  percentage: 98
+  color: info
+
+- name: Photo
+  percentage: 50
+  color: success
+
+- name: Publisher
+  percentage: 50
+  color: info

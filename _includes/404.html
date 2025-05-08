@@ -11,7 +11,7 @@
   <div class="container">
 
     <div class="wrapper p-5 text-center">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="70%">
     
         <g id="Layer_12 yellow-back-fig" data-name="Layer 12">
           <path class="cls-1" d="M600.87,872H156a4,4,0,0,0-3.78,4.19h0a4,4,0,0,0,3.78,4.19H600.87a4,4,0,0,0,3.78-4.19h0A4,4,0,0,0,600.87,872Z"/>
@@ -131,10 +131,28 @@
         </g>
     
       </svg>
-    
-      <h3>Page not Found!</h3>
-      <a class="btn btn-outline-primary mt-1" href="{{ site.baseurl }}/">Go Back Home</a>
-    
+
+	{%- if site.adblock_detect.enabled == true -%}
+      <h3>Page not found or adblock is active!</h3></h6>
+      <h6>(1) Type URL correctly <br> (2) Enable javascript <br> (3) Disable adblock software, extensions, DNS, etc. <br> (4) Try another browser.</h6>
+      <h6>Then you can <a href="{{ site.baseurl }}/">go to Home</a> or go <a href="javascript:history.back()">back to previous page</a>.</h6>
+    {%- else -%}
+      <h3>Page not found!</h3>
+      <h6><a href="{{ site.baseurl }}/">Go Home</a> or you can <a href="javascript:history.back()">back to previous page</a>.</h6>
+	{%- endif -%}
+	  
+	  <a class="btn btn-primary mt-1" href="javascript:history.back()">Back to Previous Page</a>
+
+	  <!-- Javascript reminder -->
+	  <noscript>
+		  <br>
+		  <br>
+		  <div>
+			  <h6>Javascript disabled!.</h6>
+			  <a class="btn btn-primary mt-1" href="{{ site.baseurl }}/">Back to Home</a>
+		  </div>
+	  </noscript>
+
     </div>
 
   </div>
