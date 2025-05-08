@@ -5,10 +5,13 @@ permalink: /about/
 weight: 3
 ---
 
-# **About Me**
-
-Hi I am **{{ site.author.name }}** :wave:,<br>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+# **Tentang Saya**
+Halo! Saya Yopi Pilawan,<br>
+Saya adalah operator di STIKes Respati Tasikmalaya yang juga aktif sebagai freelancer di bidang Desain Grafis, Pembuatan Website, dan Aplikasi Android.
+<br>
+Dengan pengalaman di lingkungan pendidikan dan dunia kreatif, saya siap membantu Anda mewujudkan kebutuhan digital maupun desain yang fungsional dan menarik.
+<br>
+Silakan hubungi saya melalui tombol di bawah jika Anda membutuhkan jasa saya. Saya akan dengan senang hati berdiskusi dan membantu menyelesaikan proyek Anda.
 
 <div class="row">
 {% include about/skills.html title="Programming Skills" source=site.data.programming-skills %}
