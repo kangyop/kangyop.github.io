@@ -14,9 +14,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
 <script> new WOW().init(); </script>
 
+<!-- Google Ads -->
+{%- if site.adsense.enabled == true -%}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.adsense.google.publisher_id }}"
+     crossorigin="anonymous"></script>
+{%- endif -%}
+
 <!-- Initialize all tooltips -->
 <script>
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
 </script>
+
+<!-- safelinku -->
+<script type="text/javascript">
+    var go_url = 'https://sfl.gl/';
+    var api = 'd10ee7cc102cb0852479b0f136af34e4f4f85c6d';
+    var shorten_includ = ["github.com","t.me","*.facebook.com","fb.me","*.google.com","*.safefileku.com","*.githubusercontent.com","pastebin.com","*.mediafire.com","img.shields.io","youtube.com","sfile.mobi"];
+</script>
+<script src="//safelinku.com/js/web-script.js"></script>
+

@@ -1,0 +1,11 @@
+- name: Words
+  percentage: 75
+  color: info
+
+- name: Excel
+  percentage: 40
+  color: success
+
+- name: PowerPoint
+  percentage: 40
+  color: info
