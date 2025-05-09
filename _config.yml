@@ -1,7 +1,7 @@
 ### Site Settings ###
 title               : Yopi Pilawan
 description         : |
-                      Mahasiswa Program Studi Ilmu Hadits, Desainer Grafis, Pengelola Kode C# dan Bash, Webgrammer amatir.
+                      Mahasiswa.
                       Lihat proyek, portfolio, tulisan dan profilku di menu pojok kanan atas.
 baseurl             : ""                     # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
 repository          : kangyop/kangyop.github.io     # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
@@ -28,15 +28,15 @@ author:
   image_about       : https://raw.githubusercontent.com/helmiau/helmiau.github.io/master/helmiau/helmilogo-new.svg
 # behance           : helmiamirudin
 # dribbble          : helmiau
-  email             : helmilaw@gmail.com
-  facebook          : helmiau
-  github            : helmiau
+  email             : yofi.pilawan@gmail.com
+  facebook          : yofi.shz
+#  github            : helmiau
 # gitlab            : your_username
-  instagram         : helmiau_
-  twitter           : helmiau
-  youtube           : helmilaw
-  whatsapp          : 6285852222724
-  telegram          : helmiau
+  instagram         : yopi.shz
+#  twitter           : helmiau
+#  youtube           : helmilaw
+  whatsapp          : 6281220123449
+  telegram          : kangyop
 # kaggle            : your_username
 # linkedin          : your_username
 # medium            : your_username
@@ -76,7 +76,7 @@ analytics:
 ### Replace "your_publisher_id" from url above, with your publisher id.
 ### Download ads.txt from tutorial here https://support.google.com/adsense/answer/7532444?hl=en then place it to same directory with this file.
 adsense:
-  enabled: true                                        # Set true to enable google Adsense
+  enabled: false                                        # Set true to enable google Adsense
   google:
     publisher_id: ca-pub-7446272259355358
     ## get data_ad_slot from https://www.google.com/adsense/new/u/0/pub-your_publisher_id/myads/units
@@ -84,17 +84,17 @@ adsense:
 
 ### Google Translate ###
 tagmanager:
-  enabled: true                                        # Set true to enable google Adsense
+  enabled: false                                        # Set true to enable google Adsense
   google:
     tag_id: GTM-5BQ3JVM
 
 ### Google Translate ###
 translate:
-  enabled: true                                        # Set true to enable google translate
+  enabled: false                                        # Set true to enable google translate
 
 ### AdBlock Detection ###
 adblock_detect:
-  enabled: true                                        # Set true to enable adblock detection
+  enabled: false                                        # Set true to enable adblock detection
 
 ### Defaults for collections ###
 defaults:
@@ -107,7 +107,7 @@ defaults:
       path: ""
       type: "posts"
     values:
-      comments: true                                   # Set to true to enable disqus comments
+      comments: false                                   # Set to true to enable disqus comments
 
 ### Exclude from processing ###
 exclude:
