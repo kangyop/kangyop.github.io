@@ -1,7 +1,7 @@
 ### Site Settings ###
 title               : Yopi Pilawan
 description         : |
-                      Mahasiswa Program Studi Ilmu Hadits, Desainer Grafis, Pengelola Kode C# dan Bash, Webgrammer amatir.
+                      Halo.
                       Lihat proyek, portfolio, tulisan dan profilku di menu pojok kanan atas.
 baseurl             : ""                     # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
 repository          : helmiau/helmiau.github.io     # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
@@ -28,15 +28,15 @@ author:
   image_about       : https://raw.githubusercontent.com/helmiau/helmiau.github.io/master/helmiau/helmilogo-new.svg
 # behance           : helmiamirudin
 # dribbble          : helmiau
-  email             : helmilaw@gmail.com
-  facebook          : helmiau
-  github            : helmiau
+  email             : yofi.pilawan@gmail.com
+  facebook          : yofi.shz
+#  github            : helmiau
 # gitlab            : your_username
-  instagram         : helmiau_
-  twitter           : helmiau
-  youtube           : helmilaw
-  whatsapp          : 6285852222724
-  telegram          : helmiau
+  instagram         : yopi.shz
+#  twitter           : helmiau
+#  youtube           : helmilaw
+  whatsapp          : 6285155153923
+  telegram          : kangyop
 # kaggle            : your_username
 # linkedin          : your_username
 # medium            : your_username
