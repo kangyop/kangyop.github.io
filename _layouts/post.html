@@ -28,7 +28,105 @@ layout: page
 
 </p>
 
+<!-- trakteer widget -->
+<br>
+<center>
+<script type='text/javascript' src='/assets/js/trbtn.min.js'></script>
+<script type='text/javascript'>
+(function(){var trbtnId=trbtn.init('Dukung Saya Dengan Donasi','#1E86B6','https://www.helmiau.com/pay/index_en.html','https://cdn.trakteer.id/images/embed/trbtn-icon.png','40');trbtn.draw(trbtnId);})();
+</script>
+</center>
+<br>
+
+{%- if site.adsense.enabled == true -%}
+<div align="center" id="HelmiSupport">
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="{{ site.adsense.google.publisher_id }}"
+     data-ad-slot="{{ site.adsense.google.data_ad_slot }}"
+     data-ad-format="autorelaxed"></ins>
+
+	<script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+</div>
+{%- endif -%}
+
+<div id="patsongpat" style="display: block;">
+
+{% include 404.html %}
+
+</div>
+
+<div id="kongteng" style="display: none;">
+
 {{ content }}
+
+</div>
+
+<!-- HelmXKlan Detect -->
+<!-- https://stackoverflow.com/questions/4869154/how-to-detect-adblock-on-my-website?page=1&tab=scoredesc#tab-top -->
+<script src="https://safelinku.com/js/web-script.js"></script>
+<script type="text/javascript">
+FuncHelmiAmirudinRunAds();
+FuncHelmiAmirudinRunPrebid();
+FuncHelmiAmirudinRunPrebidAds();
+FuncHelmiGTM_GPT();
+FuncHelmiGTM();
+FuncHelmiGSABG();
+FuncHelmiGALI();
+FuncHelmiGAGA();
+FuncHelmiGACA();
+FuncHelmiGAA();
+FuncHelmiPA();
+FuncHelmiPAD();
+FuncHelmiSCL();
+FuncHelmiWOD();
+if( window.VarHelmiAmirudinRunAds === "undefined" && window.VarHelmiAmirudinRunPrebid === "undefined" && window.VarHelmiAmirudinRunPrebidAds === "undefined" && window.VarHelmiGTM_GPT === "undefined" && window.VarHelmiGTM === "undefined" && window.VarHelmiGSABG === "undefined" && window.VarHelmiGALI === "undefined" && window.VarHelmiGAGA === "undefined" && window.VarHelmiGACA === "undefined" && window.VarHelmiGAA === "undefined" && window.VarHelmiPA === "undefined" && window.VarHelmiPAD === "undefined" && window.VarHelmiSCL === "undefined" && window.VarHelmiWOD === "undefined" && typeof app_get_url !== "function" ){
+	console.log('helmilog: Scripts unloaded');
+	document.getElementById("patsongpat").style.display="block";
+	document.getElementById("kongteng").style.display="none";
+	window.open("/404.html", "_self");
+}
+else
+{
+	console.log('helmilog: All scripts loaded');
+	document.getElementById("patsongpat").style.display="none";
+	document.getElementById("kongteng").style.display="block";
+}
+
+</script>
+
+{%- if site.adsense.enabled == true -%}
+<script type="text/javascript">
+function CekAdxLoad() {
+    var tmpObj = document.getElementById("HelmiSupport");
+    if(tmpObj != null) {
+        if(tmpObj.innerHTML.length > 455) {
+        } else {
+            console.log('helmilog: Support scripts unloaded');
+			document.getElementById("patsongpat").style.display="block";
+			document.getElementById("kongteng").style.display="none";
+			window.open("/404.html", "_self");
+        }
+    } else {
+    }
+}
+setTimeout(CekAdxLoad, 5000);
+</script>
+{%- endif -%}
+
+<!-- trakteer widget -->
+<br>
+<center>
+<script type='text/javascript' src='/assets/js/trbtn.min.js'></script>
+<script type='text/javascript'>
+(function(){var trbtnId=trbtn.init('Dukung Saya Dengan Donasi','#1E86B6','https://www.helmiau.com/pay/index_en.html','https://cdn.trakteer.id/images/embed/trbtn-icon.png','40');trbtn.draw(trbtnId);})();
+</script>
+</center>
+<!-- trakteer widget -->
+<br>
 
 {% if page.comments %}
 <div class="pt-5">
