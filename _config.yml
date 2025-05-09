@@ -1,5 +1,5 @@
 ### Site Settings ###
-title               : Helmi Amirudin
+title               : Yopi Pilawan
 description         : |
                       Mahasiswa Program Studi Ilmu Hadits, Desainer Grafis, Pengelola Kode C# dan Bash, Webgrammer amatir.
                       Lihat proyek, portfolio, tulisan dan profilku di menu pojok kanan atas.
@@ -23,7 +23,7 @@ nav_exclude:                                            # The following paths ar
 
 ### Author Info ###
 author:
-  name              : Helmi Amirudin
+  name              : Yopi Pilawan
   image             : https://raw.githubusercontent.com/helmiau/helmiau.github.io/master/helmiau/helmilogo-new.svg
   image_about       : https://raw.githubusercontent.com/helmiau/helmiau.github.io/master/helmiau/helmilogo-new.svg
 # behance           : helmiamirudin
@@ -84,13 +84,13 @@ adsense:
 
 ### Google Translate ###
 tagmanager:
-  enabled: true                                        # Set true to enable google Adsense
+  enabled: false                                        # Set true to enable google Adsense
   google:
     tag_id: GTM-5BQ3JVM
 
 ### Google Translate ###
 translate:
-  enabled: true                                        # Set true to enable google translate
+  enabled: false                                        # Set true to enable google translate
 
 ### AdBlock Detection ###
 adblock_detect:
@@ -107,7 +107,7 @@ defaults:
       path: ""
       type: "posts"
     values:
-      comments: true                                   # Set to true to enable disqus comments
+      comments: false                                   # Set to true to enable disqus comments
 
 ### Exclude from processing ###
 exclude:
