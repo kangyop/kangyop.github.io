@@ -5,7 +5,7 @@ description         : |
                       Lihat proyek, portfolio, tulisan dan profilku di menu pojok kanan atas.
 baseurl             : ""                     # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
 repository          : kangyop/kangyop.github.io     # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
-remote_theme        : kangyop/portfolYOU
+remote_theme        : helmiau/portfolYOU
 open_new_tab        : true                             # Opens external URLs in new tab (works for posts, projects and navbar only)
 
 
@@ -76,7 +76,7 @@ analytics:
 ### Replace "your_publisher_id" from url above, with your publisher id.
 ### Download ads.txt from tutorial here https://support.google.com/adsense/answer/7532444?hl=en then place it to same directory with this file.
 adsense:
-  enabled: false                                        # Set true to enable google Adsense
+  enabled: true                                        # Set true to enable google Adsense
   google:
     publisher_id: ca-pub-7446272259355358
     ## get data_ad_slot from https://www.google.com/adsense/new/u/0/pub-your_publisher_id/myads/units
