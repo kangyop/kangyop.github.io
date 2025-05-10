@@ -12,7 +12,7 @@ weight: 3
 <br>
 
 Hi I am <b>{{ site.author.name }}</b> :wave:,<br>
-I am a college student of <b>Imam Syafi'i Islamic College, Jember</b>. I learn more about Islamic religion and take more focus into <b>Hadeeth Science</b>, currently I have a hobby and take a job as <b>graphic designer, C# & Bash script shell coder</b>. Contact me below if you need a graphic designer or something else.
+Saya seorang manusia
 </p>
 
 {% include social.html %}
