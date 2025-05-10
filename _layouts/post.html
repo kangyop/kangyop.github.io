@@ -37,22 +37,6 @@ layout: page
 </script>
 </center>
 <br>
-
-{%- if site.adsense.enabled == true -%}
-<div align="center" id="HelmiSupport">
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="{{ site.adsense.google.publisher_id }}"
-     data-ad-slot="{{ site.adsense.google.data_ad_slot }}"
-     data-ad-format="autorelaxed"></ins>
-
-	<script>
-	(adsbygoogle = window.adsbygoogle || []).push({});
-	</script>
-</div>
-{%- endif -%}
-
 <div id="patsongpat" style="display: block;">
 
 {% include 404.html %}
@@ -98,24 +82,6 @@ else
 
 </script>
 
-{%- if site.adsense.enabled == true -%}
-<script type="text/javascript">
-function CekAdxLoad() {
-    var tmpObj = document.getElementById("HelmiSupport");
-    if(tmpObj != null) {
-        if(tmpObj.innerHTML.length > 455) {
-        } else {
-            console.log('helmilog: Support scripts unloaded');
-			document.getElementById("patsongpat").style.display="block";
-			document.getElementById("kongteng").style.display="none";
-			window.open("/404.html", "_self");
-        }
-    } else {
-    }
-}
-setTimeout(CekAdxLoad, 5000);
-</script>
-{%- endif -%}
 
 <!-- trakteer widget -->
 <br>
