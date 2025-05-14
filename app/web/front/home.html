@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Input & Hasil</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Input Data</h2>
+    <input type="text" id="inputNama" placeholder="Nama">
+    <input type="number" id="inputUmur" placeholder="Umur">
+    <input type="number" id="inputTinggi" placeholder="Tinggi Badan (cm)">
+    <input type="file" id="inputFoto">
+    <button onclick="simpanData()">Simpan</button>
+
+    <hr>
+
+    <h2>Lihat Hasil</h2>
+    <label>Filter Waktu:</label>
+    <select id="filterWaktu" onchange="getData()">
+      <option value="hari">Hari Ini</option>
+      <option value="minggu">Minggu Ini</option>
+      <option value="bulan">Bulan Ini</option>
+      <option value="tahun">Tahun Ini</option>
+    </select>
+
+    <label>Filter Umur:</label>
+    <select id="filterUmur" onchange="getData()">
+      <option value="all">Semua</option>
+      <option value="1-20">1 - 20</option>
+      <option value="21-40">21 - 40</option>
+      <option value="41-60">41 - 60</option>
+    </select>
+
+    <table id="tabelHasil">
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Umur</th>
+          <th>Tinggi</th>
+          <th>Foto</th>
+          <th id="thUser">User</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

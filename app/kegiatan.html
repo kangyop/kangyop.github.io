@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jadwal Kegiatan</title>
+  <style>
+  @font-face {
+    font-family: 'anjay';
+    src: url('fonts/thin.ttf') format('truetype');
+}
+    body {
+      font-family: 'anjay', sans-serif;
+      background-color: #f2f2f7;
+      margin: 0;
+      padding: 2rem;
+ 
+
+  
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      text-align: center;
+    }
+
+    .month-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .month-nav.hidden {
+      display: none;
+    }
+
+    .month-nav h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .arrow-btn {
+      background-color: #007aff;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .day {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .date {
+      padding: 0.8rem;
+      border-radius: 10px;
+      background-color: #e5e5ea;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+      text-align: center;
+    }
+
+    .date:hover {
+      background-color: #007aff;
+      color: white;
+    }
+
+    .today {
+      background-color: #007aff;
+      color: white;
+    }
+
+    .badge {
+      position: absolute;
+      top: 3px;
+      right: 5px;
+      background: #ff3b30;
+      color: white;
+      font-size: 0.7rem;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section {
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.6rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    button {
+      background-color: #007aff;
+      color: white;
+      padding: 0.7rem 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 0.5rem 0.2rem;
+      font-size: 1rem;
+    }
+
+    .back {
+      background: #ccc;
+    }
+
+    ul {
+      padding-left: 1rem;
+    }
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  .container {
+    padding: 1rem;
+    border-radius: 15px;
+  }
+
+  .month-nav h2 {
+    font-size: 1.2rem;
+  }
+
+  .arrow-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .calendar {
+    gap: 0.3rem;
+  }
+
+  .date {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  input[type="text"] {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.9rem;
+  }
+
+  .badge {
+    width: 18px;
+    height: 18px;
+    font-size: 0.6rem;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Jadwal Kegiatan</h1>
+    </div>
+
+    <div class="month-nav" id="monthNav">
+      <button class="arrow-btn" onclick="changeMonth(-1)">←</button>
+      <h2 id="monthTitle"></h2>
+      <button class="arrow-btn" onclick="changeMonth(1)">→</button>
+    </div>
+
+    <div class="calendar" id="calendar"></div>
+
+    <div class="section" id="todaySchedule">
+      <h3>Jadwal Kegiatan Hari Ini</h3>
+      <ul id="todayList"></ul>
+    </div>
+
+    <div class="section hidden" id="detailSection">
+      <h3 id="selectedDateTitle"></h3>
+      <ul id="selectedDateList"></ul>
+      <input type="text" id="activityName" placeholder="Nama Kegiatan" required>
+      <input type="text" id="activityTime" placeholder="Jam (misal: 13:45)" required>
+      <button onclick="addActivity()">Tambahkan Kegiatan</button><br>
+      <button class="back" onclick="goBack()">Kembali</button>
+      <button onclick="shareWhatsApp()">Kirim ke WhatsApp</button>
+    </div>
+  </div>
+
+  <script>
+    const calendar = document.getElementById('calendar');
+    const activities = JSON.parse(localStorage.getItem("activities") || "{}");
+    const monthTitle = document.getElementById("monthTitle");
+    const monthNav = document.getElementById("monthNav");
+    const todayList = document.getElementById("todayList");
+    let current = new Date();
+    let selectedDate = null;
+
+    const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+    const monthNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+    function getDateKey(date) {
+  return date.getFullYear() + "-" +
+         String(date.getMonth() + 1).padStart(2, "0") + "-" +
+         String(date.getDate()).padStart(2, "0");
+}
+
+    function renderCalendar() {
+      const year = current.getFullYear();
+      const month = current.getMonth();
+      const start = new Date(year, month, 1);
+      const end = new Date(year, month + 1, 0);
+      const firstDay = start.getDay();
+      const daysInMonth = end.getDate();
+
+      monthTitle.textContent = `${monthNames[month]} ${year}`;
+      calendar.innerHTML = "";
+
+      dayNames.forEach(day => {
+        const d = document.createElement("div");
+        d.classList.add("day");
+        d.textContent = day;
+        calendar.appendChild(d);
+      });
+
+      for (let i = 0; i < firstDay; i++) {
+        calendar.appendChild(document.createElement("div"));
+      }
+
+      for (let i = 1; i <= daysInMonth; i++) {
+        const date = new Date(year, month, i);
+        const d = document.createElement("div");
+        d.className = "date";
+        d.setAttribute("data-day", i);
+        if (new Date().toDateString() === date.toDateString()) {
+          d.classList.add("today");
+        }
+        d.textContent = i;
+
+        const key = getDateKey(date);
+        const count = activities[key]?.length || 0;
+        if (count > 0) {
+          const badge = document.createElement("div");
+          badge.className = "badge";
+          badge.textContent = count;
+          d.appendChild(badge);
+        }
+
+        d.onclick = () => showDetail(date);
+        calendar.appendChild(d);
+      }
+
+      renderTodayList();
+    }
+
+    function renderTodayList() {
+      const key = getDateKey(new Date());
+      const list = activities[key] || [];
+      todayList.innerHTML = list.length
+        ? list.map(a => `<li>${a.time} - ${a.name}</li>`).join("")
+        : "<li>Tidak ada kegiatan hari ini.</li>";
+    }
+
+    function changeMonth(offset) {
+      current.setMonth(current.getMonth() + offset);
+      renderCalendar();
+    }
+
+    function showDetail(date) {
+      selectedDate = date;
+      document.getElementById("detailSection").classList.remove("hidden");
+      document.getElementById("calendar").classList.add("hidden");
+      document.getElementById("todaySchedule").classList.add("hidden");
+      monthNav.classList.add("hidden");
+
+      const key = getDateKey(date);
+      const list = activities[key] || [];
+      document.getElementById("selectedDateTitle").textContent =
+        `Tambahkan Kegiatan Hari ${date.toLocaleDateString('id-ID', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+        })}`;
+
+      document.getElementById("selectedDateList").innerHTML =
+        list.map(a => `<li>${a.time} - ${a.name}</li>`).join("") || "<li>Belum ada kegiatan</li>";
+    }
+
+    function goBack() {
+      document.getElementById("detailSection").classList.add("hidden");
+      document.getElementById("calendar").classList.remove("hidden");
+      document.getElementById("todaySchedule").classList.remove("hidden");
+      monthNav.classList.remove("hidden");
+      renderCalendar();
+    }
+
+    function addActivity() {
+      const name = document.getElementById("activityName").value.trim();
+      const time = document.getElementById("activityTime").value.trim();
+      const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
+      if (!name || !time) return alert("Isi semua data kegiatan!");
+      if (!timePattern.test(time)) return alert("Format jam harus HH:mm (24 jam)");
+
+      const key = getDateKey(selectedDate);
+      if (!activities[key]) activities[key] = [];
+      activities[key].push({ name, time });
+
+      localStorage.setItem("activities", JSON.stringify(activities));
+      document.getElementById("activityName").value = "";
+      document.getElementById("activityTime").value = "";
+      showDetail(selectedDate);
+    }
+
+    function shareWhatsApp() {
+      const key = getDateKey(selectedDate);
+      const list = activities[key] || [];
+      const text = list.length > 0
+        ? "Kegiatan Hari Ini:\n" + list.map(a => `${a.time} - ${a.name}`).join("\n")
+        : "Tidak ada kegiatan hari ini.";
+      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(url, "_blank");
+    }
+
+    renderCalendar();
+  </script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generator Proxy Provider</title>
+  <style>
+@font-face {
+  font-family: 'ThinFont';
+  src: url('fonts/thin.ttf') format('truetype');
+}
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'ThinFont', sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .macos-bar {
+      width: 100px;
+      height: 12px;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .macos-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .red { background-color: #ff5f57; }
+    .yellow { background-color: #ffbd2e; }
+    .green { background-color: #28c840; }
+    .container {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      max-width: 800px;
+      margin: auto;
+      padding: 24px;
+    }
+    h1 { font-size: 20px; text-align: center; margin-bottom: 0px; }
+    h2 { font-size: 17px; text-align: center; color: #666; font-weight: normal; margin-bottom: 20px; }
+    label { font-weight: bold; display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+    select, input[type="text"], textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 11px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 6px;
+    }
+    textarea {
+      min-height: 200px;
+      font-family: monospace;
+      resize: vertical;
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #007aff;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .icon-btn:hover {
+      background-color: rgba(0, 122, 255, 0.1);
+    }
+    .generate-btn {
+      background-color: #007aff;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 24px;
+      width: 100%;
+    }
+    .generate-btn:hover {
+      background-color: #005fcc;
+    }
+    #output-container { margin-top: 30px; display: none; }
+    pre {
+      background-color: #eaeaea;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 14px;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+    .mac-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #f5f5f7;
+      color: #000;
+      border: 1px solid #d1d1d6;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .btn-group { flex-direction: column; }
+      .mac-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="macos-bar">
+      <div class="macos-dot red"></div>
+      <div class="macos-dot yellow"></div>
+      <div class="macos-dot green"></div>
+    </div>
+
+    <h1>GENERATOR PROXY PROVIDER</h1>
+    <h2>Satu akun dengan banyak bug. <br>(Lebih mudah & lebih cepat)</h2>
+
+    <label for="metode">Metode:</label>
+    <select id="metode">
+      <option value="cdn">WS (CDN/Bolak Balik)</option>
+      <option value="sni">WS (SNI)</option>
+    </select>
+
+    <label for="paket">Nama Paketan (maksimal 6 karakter):</label>
+    <input type="text" id="paket" maxlength="6" value="ILPED" />
+
+    <label for="akun">
+      Akun:
+      <button class="icon-btn" onclick="pasteTo('akun')" title="Tempel dari clipboard">📋</button>
+    </label>
+    <textarea id="akun">- name: judul
+  server: celah
+  port: 443
+  type: trojan
+  password: uuidku
+  skip-cert-verify: true
+  sni: servermu.com
+  network: ws
+  ws-opts:
+    path: /trojan-go
+    headers:
+      Host: servermu.com
+  udp: true</textarea>
+
+    <label for="bug">
+      Bug:
+      <button class="icon-btn" onclick="pasteTo('bug')" title="Tempel dari clipboard">📋</button>
+    </label>
+    <textarea id="bug">104.20.6.62
+104.20.7.62
+104.16.241.118</textarea>
+
+    <button class="generate-btn" onclick="generate()">⚙️ Generate</button>
+<div id="output-container">
+      <pre id="output"></pre>
+<div class="btn-group">
+  <button class="mac-btn" onclick="copyOutput()">📋 Salin</button>
+  <button class="mac-btn" onclick="selectAllOutput()">📑 Pilih Semua</button>
+  <button class="mac-btn" onclick="downloadYaml()">💾 Download</button>
+</div>
+
+    </div>
+  </div>
+
+  <script>
+    function pasteTo(id) {
+      navigator.clipboard.readText().then(text => {
+        document.getElementById(id).value = text;
+      });
+    }
+
+    function generate() {
+      const akunRaw = document.getElementById('akun').value;
+      const bugs = document.getElementById('bug').value.trim().split('\n').filter(b => b.trim() !== '');
+      const paket = document.getElementById('paket').value.trim().slice(0, 6);
+      const metode = document.getElementById('metode').value;
+      let output = 'proxies:\n';
+
+      bugs.forEach(bug => {
+        const trimmedBug = bug.trim();
+        const parts = trimmedBug.split('.');
+        const lastThree = parts.slice(-3).join('');
+        const lastDigits = lastThree.replace(/\D/g, '').padStart(4, '0').slice(-4);
+        const fullName = `${paket}${lastDigits}`;
+
+        const lines = akunRaw.split('\n').map(line => {
+          if (/^\s*-?\s*name:/.test(line)) {
+            return line.replace(/(name:\s*).*/, `$1${fullName}`);
+          }
+          if (metode === 'cdn' && /^\s*server:/.test(line)) {
+            return line.replace(/(server:\s*).*/, `$1${trimmedBug}`);
+          }
+          if (metode === 'sni') {
+            if (/^\s*servername:/.test(line)) {
+              return line.replace(/(servername:\s*).*/, `$1${trimmedBug}`);
+            }
+			if (/^\s*sni:/.test(line)) {
+              return line.replace(/(sni:\s*).*/, `$1${trimmedBug}`);
+            }
+            if (/^\s*Host:/.test(line)) {
+              return line.replace(/(Host:\s*).*/, `$1${trimmedBug}`);
+            }
+          }
+          return line;
+        });
+
+        output += lines.join('\n') + '\n';
+      });
+
+      document.getElementById('output').innerText = output.trim();
+      document.getElementById('output-container').style.display = 'block';
+    }
+
+    function copyOutput() {
+      const output = document.getElementById('output').innerText;
+      navigator.clipboard.writeText(output).then(() => alert("Disalin ke clipboard!"));
+    }
+
+    function downloadYaml() {
+      const content = document.getElementById('output').innerText;
+      const blob = new Blob([content], { type: 'text/yaml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'akun.yaml';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+	function selectAllOutput() {
+  const output = document.getElementById('output');
+  const range = document.createRange();
+  range.selectNodeContents(output);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+  </script>
+</body>
+</html>

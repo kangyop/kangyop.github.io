@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Hari Libur Terdekat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+@font-face {
+  font-family: 'ThinFont';
+  src: url('fonts/thin.ttf') format('truetype');
+}
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'ThinFont', sans-serif;
+      background: #f0f2f5;
+      height: 70%;
+    }
+
+    body {
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .window {
+      background: #ffffffcc;
+      margin: auto;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      max-width: 900px;
+    }
+
+    .titlebar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .titlebar .buttons {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .titlebar .buttons div {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .close { background-color: #ff5f57; }
+    .minimize { background-color: #ffbd2e; }
+    .maximize { background-color: #28c840; }
+
+    h1 {
+      flex: 1;
+      text-align: center;
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #1877f2;
+    }
+
+    .month-columns {
+      display: block;
+    }
+
+    .month-column {
+      display: block;
+    }
+
+    .month-column h2 {
+      font-size: 1.2rem;
+      color: #333;
+      margin-top: 0;
+    }
+
+    .holiday {
+      margin-bottom: 1.2rem;
+    }
+
+    .holiday .date {
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .holiday .desc {
+      font-size: 0.85rem;
+      color: #444;
+    }
+
+    .button-wrapper {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .toggle-button {
+      background-color: #1877f2;
+      color: white;
+      border: none;
+      padding: 0.65rem 1rem;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .semua-libur {
+      display: none;
+      margin-top: 2rem;
+      max-height: 300px;
+      overflow-y: auto;
+      border-top: 1px solid #ddd;
+      padding-top: 1rem;
+    }
+
+    .semua-libur .holiday {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">
+      <div class="buttons">
+        <div class="close"></div>
+        <div class="minimize"></div>
+        <div class="maximize"></div>
+      </div>
+      <h1>Hari Libur Terdekat</h1>
+    </div>
+
+    <div class="month-columns" id="libur-terdekat"></div>
+
+    <div class="button-wrapper">
+      <button class="toggle-button" onclick="toggleSemuaLibur()">Tampilkan Semua Hari Libur</button>
+      <button class="toggle-button" onclick="kirimKeWhatsApp()">Kirim ke WhatsApp</button>
+    </div>
+
+    <div class="semua-libur" id="semua-libur"></div>
+  </div>
+
+  <script>
+    const hariLibur = [
+      { tanggal: "2025-01-01", nama: "Tahun Baru 2025 Masehi" },
+      { tanggal: "2025-01-27", nama: "Isra Mikraj Nabi Muhammad SAW" },
+      { tanggal: "2025-01-29", nama: "Tahun Baru Imlek 2576 Kongzili" },
+      { tanggal: "2025-03-28", nama: "Hari Suci Nyepi Tahun Baru Saka 1947", cuti: true },
+      { tanggal: "2025-03-29", nama: "Hari Suci Nyepi Tahun Baru Saka 1947" },
+      { tanggal: "2025-03-31", nama: "Hari Raya Idul Fitri 1446 Hijriyah" },
+      { tanggal: "2025-04-01", nama: "Hari Raya Idul Fitri 1446 Hijriyah" },
+      { tanggal: "2025-04-02", nama: "Hari Raya Idul Fitri 1446 Hijriyah", cuti: true },
+      { tanggal: "2025-04-03", nama: "Hari Raya Idul Fitri 1446 Hijriyah", cuti: true },
+      { tanggal: "2025-04-04", nama: "Hari Raya Idul Fitri 1446 Hijriyah", cuti: true },
+      { tanggal: "2025-04-07", nama: "Hari Raya Idul Fitri 1446 Hijriyah", cuti: true },
+      { tanggal: "2025-04-18", nama: "Wafat Yesus Kristus" },
+      { tanggal: "2025-04-20", nama: "Kebangkitan Yesus Kristus (Paskah)" },
+      { tanggal: "2025-05-01", nama: "Hari Buruh Internasional" },
+      { tanggal: "2025-05-12", nama: "Hari Raya Waisak 2569 BE" },
+      { tanggal: "2025-05-13", nama: "Hari Raya Waisak 2569 BE", cuti: true },
+      { tanggal: "2025-05-29", nama: "Kenaikan Yesus Kristus" },
+      { tanggal: "2025-05-30", nama: "Kenaikan Yesus Kristus", cuti: true },
+      { tanggal: "2025-06-01", nama: "Hari Lahir Pancasila" },
+      { tanggal: "2025-06-06", nama: "Hari Raya Idul Adha 1446 Hijriyah" },
+      { tanggal: "2025-06-09", nama: "Hari Raya Idul Adha 1446 Hijriyah", cuti: true },
+      { tanggal: "2025-06-27", nama: "Tahun Baru Islam 1447 Hijriyah" },
+      { tanggal: "2025-08-17", nama: "Hari Kemerdekaan Republik Indonesia" },
+      { tanggal: "2025-09-05", nama: "Maulid Nabi Muhammad SAW" },
+      { tanggal: "2025-12-25", nama: "Hari Raya Natal" },
+      { tanggal: "2025-12-26", nama: "Hari Raya Natal", cuti: true }
+    ];
+
+    function formatTanggal(tanggalStr) {
+      const date = new Date(tanggalStr);
+      return date.toLocaleDateString("id-ID", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    function renderLiburTerdekat() {
+      const now = new Date();
+      const bulanIni = now.getMonth();
+      const tahunIni = now.getFullYear();
+      const bulanDepan = (bulanIni + 1) % 12;
+      const tahunDepan = bulanIni === 11 ? tahunIni + 1 : tahunIni;
+
+      const bulanGroup = {
+        [`${tahunIni}-${bulanIni}`]: [],
+        [`${tahunDepan}-${bulanDepan}`]: []
+      };
+
+      hariLibur.forEach(libur => {
+        const d = new Date(libur.tanggal);
+        const key = `${d.getFullYear()}-${d.getMonth()}`;
+        if (key in bulanGroup) {
+          bulanGroup[key].push(libur);
+        }
+      });
+
+      const container = document.getElementById("libur-terdekat");
+      container.innerHTML = "";
+
+      for (const key in bulanGroup) {
+        const [tahun, bulan] = key.split('-').map(Number);
+        const namaBulan = new Date(tahun, bulan).toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+
+        const column = document.createElement("div");
+        column.className = "month-column";
+        column.innerHTML = `<h2>${namaBulan}</h2>`;
+
+        bulanGroup[key].forEach(item => {
+          const el = document.createElement("div");
+          el.className = "holiday";
+          el.innerHTML = `
+            <div class="date">${formatTanggal(item.tanggal)}</div>
+            <div class="desc">${item.nama}${item.cuti ? " (Cuti Bersama)" : ""}</div>
+          `;
+          column.appendChild(el);
+        });
+
+        container.appendChild(column);
+      }
+    }
+
+    function toggleSemuaLibur() {
+      const el = document.getElementById("semua-libur");
+      el.style.display = el.style.display === "none" ? "block" : "none";
+      if (el.innerHTML === "") {
+        hariLibur.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "holiday";
+          div.innerHTML = `<div class="date">${formatTanggal(item.tanggal)}</div><div class="desc">${item.nama}${item.cuti ? " (Cuti Bersama)" : ""}</div>`;
+          el.appendChild(div);
+        });
+      }
+    }
+
+    function kirimKeWhatsApp() {
+      const now = new Date();
+      const bulanIni = now.getMonth();
+      const tahunIni = now.getFullYear();
+      const bulanDepan = (bulanIni + 1) % 12;
+      const tahunDepan = bulanIni === 11 ? tahunIni + 1 : tahunIni;
+
+      const bulanGroup = {
+        [`${tahunIni}-${bulanIni}`]: [],
+        [`${tahunDepan}-${bulanDepan}`]: []
+      };
+
+      hariLibur.forEach(libur => {
+        const d = new Date(libur.tanggal);
+        const key = `${d.getFullYear()}-${d.getMonth()}`;
+        if (key in bulanGroup) {
+          bulanGroup[key].push(libur);
+        }
+      });
+
+      let pesan = `📅 *Hari Libur Terdekat*\n\n`;
+
+      for (const key in bulanGroup) {
+        const [tahun, bulan] = key.split('-').map(Number);
+        const namaBulan = new Date(tahun, bulan).toLocaleDateString('id-ID', {
+          month: 'long',
+          year: 'numeric'
+        });
+
+        pesan += `📌 *${namaBulan}*\n`;
+        bulanGroup[key].forEach(item => {
+          const tanggal = formatTanggal(item.tanggal);
+          const tambahan = item.cuti ? " (Cuti Bersama)" : "";
+          pesan += `• *${tanggal}*\n  ${item.nama}${tambahan}\n`;
+        });
+        pesan += `\n`;
+      }
+
+      const url = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
+      window.open(url, '_blank');
+    }
+
+    renderLiburTerdekat();
+  </script>
+</body>
+</html>

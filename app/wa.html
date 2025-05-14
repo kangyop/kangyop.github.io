@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kirim WhatsApp</title>
+ 
+  <style>
+@font-face {
+  font-family: 'ThinFont';
+  src: url('fonts/thin.ttf') format('truetype');
+}
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      font-family: 'ThinFont', sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #333;
+      font-size: 24px;
+    }
+
+    .sub-title {
+      font-family: 'ThinFont', sans-serif;
+
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: #25d366;
+    }
+
+    .paste-btn {
+      position: absolute;
+      right: 5px;
+      padding: 6px 12px;
+      border: none;
+      background-color: #e0e0e0;
+      color: #333;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background-color 0.2s ease;
+    }
+
+    .paste-btn:hover {
+      background-color: #ccc;
+    }
+
+    .checkbox-group {
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    .custom-message {
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    button.send {
+      background-color: #25d366;
+      color: #fff;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    button.send:hover {
+      background-color: #1ebe5d;
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 22px;
+      }
+
+      .sub-title {
+        font-size: 12px;
+        margin-bottom: 15px;
+      }
+
+      input[type="text"],
+      textarea,
+      .paste-btn,
+      button.send {
+        font-size: 14px;
+      }
+
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Kirim WhatsApp</h2>
+    <p class="sub-title">Kirim Pesan Whatsapp Tanpa Perlu Save Nomor</p>
+
+    <label for="phone" style="text-align: left; display: block; margin-bottom: 6px;">Nomor HP:</label>
+    <div class="input-group">
+      <input type="text" id="phone" placeholder="Contoh: 0852-2200-1234">
+    
+    </div>
+
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="customCheckbox" onchange="toggleCustomMessage()"> Custom Isi Chat</label>
+    </div>
+
+    <div id="customMessageContainer" class="custom-message">
+      <textarea id="customMessage" rows="4" placeholder="Tulis pesan custom di sini..."></textarea>
+    </div>
+
+    <button class="send" onclick="sendWhatsApp()">Kirim Pesan</button>
+  </div>
+
+  <script>
+    function pasteFromClipboard() {
+      navigator.clipboard.readText()
+        .then(text => {
+          document.getElementById('phone').value = text;
+        })
+        .catch(err => {
+          alert("Gagal menempel. Pastikan browser kamu mengizinkan akses clipboard.");
+        });
+    }
+
+    function toggleCustomMessage() {
+      const checkbox = document.getElementById('customCheckbox');
+      const customContainer = document.getElementById('customMessageContainer');
+      customContainer.style.display = checkbox.checked ? 'block' : 'none';
+    }
+
+    function sendWhatsApp() {
+      let phone = document.getElementById('phone').value;
+      phone = phone.replace(/[^0-9]/g, '');
+
+      if (phone.startsWith('08')) {
+        phone = '628' + phone.substring(2);
+      }
+
+      if (phone.length < 9) {
+        alert('Nomor HP tidak valid.');
+        return;
+      }
+
+      const useCustom = document.getElementById('customCheckbox').checked;
+      const customText = document.getElementById('customMessage').value.trim();
+      const message = useCustom && customText !== '' 
+                      ? encodeURIComponent(customText) 
+                      : encodeURIComponent("Assalamualaikum wr wb");
+
+      const url = `https://wa.me/${phone}?text=${message}`;
+      window.open(url, '_blank');
+    }
+  </script>
+
+</body>
+</html>
+

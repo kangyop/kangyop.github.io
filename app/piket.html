@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Hari Piket</title>
+  <style>
+@font-face {
+  font-family: 'ThinFont';
+  src: url('fonts/thin.ttf') format('truetype');
+}
+
+    body {
+      font-family: 'ThinFont', sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f0f2f5; /* Background seperti Facebook */
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #1877f2; /* Warna biru seperti logo Facebook */
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .dropdown {
+      padding: 10px;
+      width: 60%;
+      max-width: 250px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .dropdown-container {
+      margin-bottom: 20px;
+    }
+    .interval-info {
+      font-size: 14px;
+      font-style: italic;
+      color: #555;
+      margin-top: 5px;
+    }
+    .result-label {
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    .result-box {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    textarea {
+      width: 100%;
+      max-width: 400px;
+      height: 120px;
+      padding: 10px;
+	  font-family: 'ThinFont', sans-serif;
+      font-size: 14px;
+      resize: none;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .copy-button {
+      padding: 8px 12px;
+      font-size: 13px;
+      background-color: #1877f2; /* Tombol biru Facebook */
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      height: 40px;
+    }
+    .copy-button:hover {
+      background-color: #165eab; /* Efek hover biru lebih gelap */
+    }
+    .whatsapp-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 16px;
+      text-decoration: none;
+      color: #25d366; /* Warna hijau WhatsApp */
+    }
+    .whatsapp-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Kalkulator Hari Piket</h2>
+
+  <!-- Dropdown Hari -->
+  <div class="dropdown-container">
+    <label for="daySelect">Hari Terdekat Kamu Piket:</label><br>
+    <select id="daySelect" class="dropdown" onchange="showNextDays()">
+      <option value="Senin">Senin</option>
+      <option value="Selasa">Selasa</option>
+      <option value="Rabu">Rabu</option>
+      <option value="Kamis">Kamis</option>
+      <option value="Jumat">Jumat</option>
+      <option value="Sabtu">Sabtu</option>
+      <option value="Minggu">Minggu</option>
+    </select>
+  </div>
+
+  <!-- Dropdown Interval -->
+  <div class="dropdown-container">
+    <label for="intervalSelect">Hari Libur:</label><br>
+    <select id="intervalSelect" class="dropdown" onchange="showNextDays()">
+      <option value="2">1 Hari</option>
+      <option value="3">2 Hari</option>
+      <option value="4">3 Hari</option>
+      <option value="5">4 Hari</option>
+      <option value="6">5 Hari</option>
+    </select>
+    <div id="intervalExplanation" class="interval-info"></div>
+  </div>
+
+  <!-- Label Hasil -->
+  <div class="result-label">Hari Piket Berikutnya</div>
+
+  <!-- Hasil -->
+  <div class="result-box">
+    <textarea id="resultText" readonly></textarea>
+    <button class="copy-button" onclick="copyToClipboard()">Salin</button>
+  </div>
+
+  <!-- WhatsApp Button -->
+  <a id="waLink" class="whatsapp-link" href="#" target="_blank">Kirim via WhatsApp</a>
+</div>
+
+<script>
+  const weekDays = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const customDays = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+  const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                      "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+  function showNextDays() {
+    const selectedDay = document.getElementById("daySelect").value;
+    const selectedInterval = parseInt(document.getElementById("intervalSelect").value);
+    const dayOffset = customDays.indexOf(selectedDay);
+
+    // Tanggal dasar ke hari yang dipilih
+    let baseDate = new Date();
+    const todayIndex = baseDate.getDay(); // 0 = Minggu
+    const targetDayIndex = (dayOffset + 1) % 7;
+    let diff = (targetDayIndex - todayIndex + 7) % 7;
+    baseDate.setDate(baseDate.getDate() + diff);
+
+    let output = ["Hari Piket Berikutnya:"];
+    for (let i = 1; i <= 5; i++) {
+      let nextDate = new Date(baseDate);
+      nextDate.setDate(baseDate.getDate() + i * selectedInterval);
+      const dayName = weekDays[nextDate.getDay()];
+      const date = nextDate.getDate();
+      const month = monthNames[nextDate.getMonth()];
+      output.push(`${dayName}, ${date} ${month}`);
+    }
+
+    const resultText = output.join("\n");
+    document.getElementById("resultText").value = resultText;
+    document.getElementById("intervalExplanation").innerText =
+      `Jeda Hari Kerja : ${selectedInterval} Hari`;
+
+    // Update link WhatsApp
+    const waURL = "https://wa.me/?text=" + encodeURIComponent(resultText);
+    document.getElementById("waLink").href = waURL;
+  }
+
+  function copyToClipboard() {
+    const textArea = document.getElementById("resultText");
+    textArea.select();
+    textArea.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Hasil disalin ke clipboard!");
+  }
+
+  window.onload = showNextDays;
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengingat Konsumsi FE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f7;
+      margin: 0;
+      padding: 1rem;
+      color: #333;
+    }
+    h1, h2, h3 {
+      text-align: center;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: none;
+      margin-top: 0.5rem;
+      cursor: pointer;
+    }
+    .btn-primary { background: navy; color: #fff; }
+    .btn-green { background: green; color: #fff; }
+    .btn-red { background: crimson; color: #fff; }
+    .btn-outline { border: 1px solid #ccc; background: transparent; }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .hidden { display: none; }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      text-align: center;
+    }
+    .calendar div {
+      padding: 10px;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .calendar .day-name { font-weight: bold; background: #f0f0f0; }
+    .calendar .active { background: navy; color: white; cursor: pointer; }
+    .popup {
+      position: absolute;
+      background: #333;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      z-index: 10;
+    }
+    @media (max-width: 600px) {
+      .calendar div { padding: 5px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">Memuat...</div>
+
+  <script>
+    // Penampung data utama
+    let data = JSON.parse(localStorage.getItem('fe_data') || '{}');
+    const app = document.getElementById('app');
+
+    function save() {
+      localStorage.setItem('fe_data', JSON.stringify(data));
+    }
+
+    function initData() {
+      if (!data.sekolah) data.sekolah = "";
+      if (!data.kelas) data.kelas = [];
+      if (!data.siswa) data.siswa = {}; // { "X IPA 1": ["Rina", "Rahmi"] }
+      if (!data.konsumsi) data.konsumsi = {}; // { "2025-05-07": ["Rina"] }
+    }
+
+    function renderApp() {
+      initData();
+      app.innerHTML = "";
+
+      if (!data.sekolah) return renderInputSekolah();
+
+      renderJudul();
+      renderInformasi();
+      renderKalender();
+      renderInputKonsumsi();
+      renderNotifikasiPekan();
+      renderRiwayat();
+      renderManajemenData();
+    }
+
+    function renderInputSekolah() {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h2>Masukkan Nama Sekolah</h2>
+        <input type="text" id="inputSekolah" placeholder="Contoh: SMAN 1 Bandung">
+        <button class="btn btn-primary" onclick="
+          data.sekolah = document.getElementById('inputSekolah').value;
+          save(); renderApp();
+        ">Simpan</button>
+      `;
+      app.appendChild(card);
+    }
+
+    function renderJudul() {
+      const header = document.createElement('div');
+      header.innerHTML = `<h1>Pengingat Konsumsi FE Remaja Putri<br>${data.sekolah}</h1>`;
+      app.appendChild(header);
+    }
+
+    function renderInformasi() {
+      const info = document.createElement('div');
+      info.className = 'card';
+      info.innerHTML = `
+        <p>Remaja putri dianjurkan mengonsumsi <strong>1 tablet FE per minggu</strong> setiap hari Senin atau sesuai jadwal sekolah.</p>
+      `;
+      app.appendChild(info);
+    }
+
+    function renderKalender() {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+
+      const dayNames = ["Min","Sen","Sel","Rab","Kam","Jum","Sab"];
+      let html = '<div class="calendar">';
+      dayNames.forEach(d => html += `<div class='day-name'>${d}</div>`);
+
+      let start = firstDay.getDay();
+      for (let i = 0; i < start; i++) html += '<div></div>';
+
+      for (let d = 1; d <= lastDay.getDate(); d++) {
+        const dateStr = `${year}-${(month+1).toString().padStart(2,'0')}-${d.toString().padStart(2,'0')}`;
+        const isKonsumsi = Object.values(data.konsumsi).flat().includes(dateStr);
+        html += `<div class='${isKonsumsi ? "active" : ""}' onclick="alert('Kamu sudah mengonsumsi FE pada ${dateStr}')">${d}</div>`;
+      }
+      html += '</div>';
+
+      card.innerHTML = `<h3>Kalender Bulan ${today.toLocaleString('id', { month: 'long' })}</h3>` + html;
+      app.appendChild(card);
+    }
+
+    function renderInputKonsumsi() {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>Input Konsumsi FE Hari Ini</h3>`;
+
+      const pilihKelas = document.createElement('select');
+      pilihKelas.innerHTML = `<option disabled selected>Pilih Kelas</option>` + data.kelas.map(k => `<option>${k}</option>`).join('');
+
+      const siswaList = document.createElement('div');
+      siswaList.style.marginTop = '0.5rem';
+
+      pilihKelas.onchange = () => {
+        siswaList.innerHTML = "";
+        const list = data.siswa[pilihKelas.value] || [];
+        list.forEach(nama => {
+          const cek = document.createElement('div');
+          cek.innerHTML = `<label><input type='checkbox' value='${nama}'> ${nama}</label>`;
+          siswaList.appendChild(cek);
+        });
+      };
+
+      const simpan = document.createElement('button');
+      simpan.className = 'btn btn-green';
+      simpan.textContent = 'Simpan';
+      simpan.onclick = () => {
+        const date = new Date().toISOString().split('T')[0];
+        if (!data.konsumsi[date]) data.konsumsi[date] = [];
+        siswaList.querySelectorAll('input:checked').forEach(cek => {
+          if (!data.konsumsi[date].includes(cek.value)) data.konsumsi[date].push(cek.value);
+        });
+        save();
+        renderApp();
+      };
+
+      card.appendChild(pilihKelas);
+      card.appendChild(siswaList);
+      card.appendChild(simpan);
+      app.appendChild(card);
+    }
+
+    function renderNotifikasiPekan() {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const hariIni = new Date();
+      const start = new Date(hariIni);
+      start.setDate(hariIni.getDate() - hariIni.getDay());
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
+
+      const mingguIni = {};
+      Object.entries(data.konsumsi).forEach(([tgl, siswaList]) => {
+        const d = new Date(tgl);
+        if (d >= start && d <= end) {
+          siswaList.forEach(n => mingguIni[n] = true);
+        }
+      });
+
+      const belum = [];
+      data.kelas.forEach(k => {
+        (data.siswa[k] || []).forEach(n => {
+          if (!mingguIni[n]) belum.push(n);
+        });
+      });
+
+      card.innerHTML = `<strong>Ada ${belum.length} siswa belum konsumsi FE minggu ini.</strong>
+        <br><button class="btn btn-outline" onclick="alert('Belum konsumsi:\n${belum.join('\n')}')">Lihat siapa saja</button>`;
+      app.appendChild(card);
+    }
+
+    function renderRiwayat() {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>Lihat Riwayat</h3>`;
+      const pilihKelas = document.createElement('select');
+      pilihKelas.innerHTML = data.kelas.map(k => `<option>${k}</option>`).join('');
+
+      const pilihBulan = document.createElement('select');
+      for (let i = 0; i < 12; i++) {
+        pilihBulan.innerHTML += `<option value="${i+1}">${new Date(2025, i, 1).toLocaleString('id', { month: 'long' })}</option>`;
+      }
+
+      const tampil = document.createElement('button');
+      tampil.className = 'btn btn-primary';
+      tampil.textContent = 'Lihat Riwayat';
+
+      const output = document.createElement('div');
+
+      tampil.onclick = () => {
+        output.innerHTML = "";
+        const kelas = pilihKelas.value;
+        const bulan = pilihBulan.value.padStart(2, '0');
+        const siswa = data.siswa[kelas] || [];
+        siswa.forEach(nama => {
+          const catatan = [];
+          Object.entries(data.konsumsi).forEach(([tgl, list]) => {
+            if (tgl.split('-')[1] === bulan && list.includes(nama)) catatan.push(tgl);
+          });
+          if (catatan.length) {
+            output.innerHTML += `<strong>${nama} (${catatan.length} kali)</strong><br>${catatan.join('<br>')}<br><br>`;
+          }
+        });
+      };
+
+      card.appendChild(pilihKelas);
+      card.appendChild(pilihBulan);
+      card.appendChild(tampil);
+      card.appendChild(output);
+
+      const kirim = document.createElement('button');
+      kirim.className = 'btn btn-green';
+      kirim.textContent = 'Kirim ke WhatsApp';
+      kirim.onclick = () => {
+        const text = output.innerText.replaceAll("\n", "%0A");
+        window.open(`https://wa.me/?text=${text}`);
+      };
+      card.appendChild(kirim);
+
+      app.appendChild(card);
+    }
+
+    function renderManajemenData() {
+      renderTambahKelas();
+      renderTambahSiswa();
+      renderEditData();
+    }
+
+    function renderTambahKelas() {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>Tambah Kelas</h3>
+        <input type='text' id='namaKelas'>
+        <button class='btn btn-primary' onclick='addKelas()'>Simpan</button>`;
+      app.appendChild(card);
+    }
+
+    function addKelas() {
+      const nama = document.getElementById('namaKelas').value;
+      if (!data.kelas.includes(nama)) {
+        data.kelas.push(nama);
+        data.siswa[nama] = [];
+        save();
+        renderApp();
+      }
+    }
+
+    function renderTambahSiswa() {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>Tambah Siswa</h3>`;
+
+      const pilih = document.createElement('select');
+      pilih.innerHTML = data.kelas.map(k => `<option>${k}</option>`).join('');
+      const input = document.createElement('textarea');
+      input.placeholder = "Masukkan nama-nama siswa, pisahkan dengan enter";
+
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-primary';
+      btn.textContent = 'Simpan';
+      btn.onclick = () => {
+        const kelas = pilih.value;
+        const namaList = input.value.trim().split('\n').filter(Boolean);
+        data.siswa[kelas] = [...data.siswa[kelas], ...namaList];
+        save();
+        renderApp();
+      };
+
+      card.appendChild(pilih);
+      card.appendChild(input);
+      card.appendChild(btn);
+      app.appendChild(card);
+    }
+
+    function renderEditData() {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>Edit Data</h3>`;
+      data.kelas.forEach(k => {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = `<strong>${k}</strong>
+          <button class='btn btn-red' onclick='hapusKelas("${k}")'>Hapus Kelas</button><br>`;
+        (data.siswa[k] || []).forEach((s, i) => {
+          wrap.innerHTML += `- ${s} <button class='btn btn-red' onclick='hapusSiswa("${k}", ${i})'>x</button><br>`;
+        });
+        card.appendChild(wrap);
+      });
+      app.appendChild(card);
+    }
+
+    function hapusKelas(nama) {
+      if (confirm("Yakin hapus kelas?")) {
+        data.kelas = data.kelas.filter(k => k !== nama);
+        delete data.siswa[nama];
+        save();
+        renderApp();
+      }
+    }
+
+    function hapusSiswa(kelas, index) {
+      data.siswa[kelas].splice(index, 1);
+      save();
+      renderApp();
+    }
+
+    renderApp();
+  </script>
+</body>
+</html>

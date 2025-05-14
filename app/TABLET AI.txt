@@ -1,0 +1,57 @@
+buatkan html
+
+Pas muncul Pertama ada pertanyaan "Nama Sekolah" dan akan tersimpan permanen dan akan tercantum di judul
+
+Pengingat Konsumsi FE Remaja Putri (garis baru) Nama Sekolahnya
+muncul dibawahnya keterangan harus mengkonsumsi Dosisnya berapa dan kapan
+
+dan dibawahnya akan muncul kalender setiap bulannya berganti, hanya menampilkan "Bulan Sekarang"
+dan ada tombol icon kecil yang estetik untuk pindah ke bulan berikutnya dan sebelumnya.
+
+
+
+Dibawahnya ada tombol "Input Sudah Konsumsi Tablet FE Hari ini"
+
+Pada tanggal yang sudah mengklik sudah konsumsi fe, Maka akan muncul Latar NAVY TEKS PUTIH pada angka tanggal di kalendernya sebagai penanda sudah mengkonsumi FE. dan ketika di klik akan muncul pop up kecil "Kamu Sudah Mengkonsumsi Tablet FE pada tanggal ini" Waktu zona Jawa Barat
+
+Dan dibawah akan muncul notif "Ada (angka siswa belum konsumsi tablet pada pekan ini) mengkonsumsi Tablet FE pada pekan ini" ada tombol lihat siapa saja, dan menampilkan nama yang belum mengkonsumi 
+
+dan ada tombol Pilihan Kelas yang ada, Pilihan Bulan dan tombol "Lihat Riwayat" dan akan menampilkan semua siswa dan tanggal yang sudah diinputkan dan ada jumlahnya pada kelas yang dipilih 
+
+contoh formatnya:
+
+Riwayat Mengkonsumsi Tablet FE Bulan Januari Kelas 12 :
+Rina (2 Kali Mengkonsumsi Tablet FE)
+Senin, 2 Januari 2025
+Senin, 8 Januari 2025
+
+Rahmi (3 Kali Mengkonsumsi Tablet FE)
+Senin, 2 Februari 2025
+Senin, 8 Februari 2025
+Senin, 13 Februari 2025
+
+dan ada pilihan "Lihat Bulan Lain" dan muncul drowdown untuk melihat bulan tersebut, dan memunculkan data pada bulan tersebut. 
+
+dan ada tombol "Kirim Ke Whatsapp" background hijau teks putih untuk mengirim teks riwayat dengan rinci (hanya muncul ketika sudah klik "Lihat Riwayat"
+
+
+Paling Bawah Ada Tiga tombol
+"Tambah Kelas" "Tambah Siswa" "Edit Data"
+
+Ketika "Tambah Kelas" hanya akan jadi nama kelas
+
+Ketika "Tambah Siswa" Akan bertanya dulu Pilih Kelas (muncul pilihan kelas yang sudah diinput" dan berapa jumlah siswa nya 
+akan muncul kolom sejumlah angka yang diinputkan dan ada pilihan simpan. dan boleh menambahkan ulang jika da tambahan
+
+Ketika "Edit Data" Akan memunculkan Edit Kelas dan Edit Siswa
+
+"Edit Kelas" maka akan memunculkan semua nama kelas yang ada, dan ada fitur hapus dan ganti nama
+
+"Edit Siswa" akan muncul semua siswa dan nama kelasnya. ada fitur hapus dan ganti nama 
+
+
+
+
+buat style macos dengan text box dan shadow nya, mobile friendly, font roboto
+
+catatan penting, semua data kelas, nama, dan inputan sudah konsumsi fe semua tersimpan permanen di lokal 

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fast Notepad</title>
+  <style>
+@font-face {
+  font-family: 'ThinFont';
+  src: url('fonts/thin.ttf') format('truetype');
+}
+
+    body {
+      margin: 0;
+      font-family: 'ThinFont', sans-serif;
+      background-color: #f2f2f5;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: #ffffffcc;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    button#addNote,
+    button#backButton {
+      font-size: 1.3rem;
+      padding: 0.3rem 0.8rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #007aff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button#backButton {
+      display: none;
+    }
+
+    .notes-container {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .note {
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .note textarea {
+      width: 100%;
+      border: none;
+      resize: vertical;
+      outline: none;
+      font-size: 1rem;
+	  font-family: 'ThinFont', sans-serif;
+      background: transparent;
+      min-height: 40px;
+    }
+
+    .note .menu {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    .menu-options {
+      position: absolute;
+      top: 30px;
+      right: 10px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      padding: 0.5rem;
+      display: none;
+      z-index: 100;
+    }
+
+    .menu-options button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.3rem 0;
+      text-align: left;
+      width: 100%;
+      font-size: 0.95rem;
+    }
+
+    /* Fullscreen mode */
+    .note.fullscreen {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 100vw;
+      height: calc(100vh - 60px);
+      margin: 0;
+      border-radius: 0;
+      z-index: 999;
+      padding: 1rem;
+      box-shadow: none;
+      background: white;
+    }
+
+    .note.fullscreen textarea {
+      height: 100%;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <button id="backButton">⬅</button>
+    <h1>Fast Notepad</h1>
+    <button id="addNote">+</button>
+  </header>
+
+  <main class="notes-container" id="notesContainer"></main>
+
+  <script>
+    let notes = JSON.parse(localStorage.getItem("notes")) || [];
+    let currentFullscreenNote = null;
+
+    function saveNotes() {
+      localStorage.setItem("notes", JSON.stringify(notes));
+    }
+
+    function createNoteElement(note, index) {
+      const noteDiv = document.createElement("div");
+      noteDiv.className = "note";
+
+      const textarea = document.createElement("textarea");
+      textarea.value = note.content;
+
+      textarea.oninput = (e) => {
+        const value = e.target.value.trim();
+        if (value === "") {
+          notes.splice(index, 1);
+          saveNotes();
+          renderNotes();
+        } else {
+          notes[index].content = e.target.value;
+          saveNotes();
+        }
+      };
+
+      textarea.onfocus = () => {
+        noteDiv.classList.add("fullscreen");
+        document.getElementById("backButton").style.display = "inline-block";
+        currentFullscreenNote = noteDiv;
+      };
+
+      const menu = document.createElement("div");
+      menu.className = "menu";
+      menu.textContent = "⋯";
+
+      const options = document.createElement("div");
+      options.className = "menu-options";
+
+      menu.onclick = (e) => {
+  e.stopPropagation(); // biar nggak langsung tertutup saat diklik
+  const currentlyOpen = options.style.display === "block";
+  
+  // Tutup semua menu lain
+  document.querySelectorAll(".menu-options").forEach(opt => opt.style.display = "none");
+
+  // Tampilkan menu ini kalau sebelumnya belum terbuka
+  options.style.display = currentlyOpen ? "none" : "block";
+};
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Hapus";
+      deleteBtn.onclick = () => {
+        notes.splice(index, 1);
+        saveNotes();
+        renderNotes();
+      };
+
+      const waBtn = document.createElement("button");
+      waBtn.textContent = "Kirim via WhatsApp";
+      waBtn.onclick = () => {
+        const text = encodeURIComponent(note.content);
+        window.open(`https://wa.me/?text=${text}`, "_blank");
+      };
+
+      options.appendChild(deleteBtn);
+      options.appendChild(waBtn);
+
+      noteDiv.appendChild(textarea);
+      noteDiv.appendChild(menu);
+      noteDiv.appendChild(options);
+
+      return noteDiv;
+    }
+
+    function renderNotes() {
+      const container = document.getElementById("notesContainer");
+      container.innerHTML = "";
+      notes.forEach((note, index) => {
+        const noteEl = createNoteElement(note, index);
+        container.appendChild(noteEl);
+      });
+      document.getElementById("backButton").style.display = "none";
+    }
+
+    document.getElementById("addNote").addEventListener("click", () => {
+      const newNote = { content: "" };
+      notes.unshift(newNote);
+      saveNotes();
+      renderNotes();
+
+      // Masuk mode fullscreen langsung
+      const firstNote = document.querySelector(".note");
+      if (firstNote) {
+        const textarea = firstNote.querySelector("textarea");
+        firstNote.classList.add("fullscreen");
+        document.getElementById("backButton").style.display = "inline-block";
+        currentFullscreenNote = firstNote;
+        textarea.focus();
+      }
+    });
+
+    document.getElementById("backButton").addEventListener("click", () => {
+      if (currentFullscreenNote) {
+        const textarea = currentFullscreenNote.querySelector("textarea");
+        const value = textarea.value.trim();
+        const index = [...document.querySelectorAll(".note")].indexOf(currentFullscreenNote);
+
+        if (value === "") {
+          notes.splice(index, 1);
+        }
+
+        currentFullscreenNote.classList.remove("fullscreen");
+        textarea.blur();
+        currentFullscreenNote = null;
+        saveNotes();
+        renderNotes();
+      }
+      document.getElementById("backButton").style.display = "none";
+    });
+
+    window.addEventListener("beforeunload", saveNotes);
+    window.addEventListener("pageshow", renderNotes);
+
+    renderNotes();
+  </script>
+
+</body>
+</html>

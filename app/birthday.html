@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Penghitung Umur</title>
+ 
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+@font-face {
+    font-family: 'anjay';
+    src: url('fonts/thin.ttf') format('truetype');
+}
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'anjay', sans-serif;
+      background: #f0f1f6;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 750px;  
+width: 90%;
+margin: auto;
+  background: #fff;  
+padding: 20px;
+  border-radius: 16px;  
+box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #333;
+      text-align: left;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      background-color: #f9f9f9;
+      transition: background-color 0.3s ease;
+    }
+
+    select:focus {
+      background-color: #e5e5e5;
+      outline: none;
+      border-color: #0078d4; /* Facebook-like blue */
+    }
+
+    button {
+      background-color: #1877f2; /* Facebook blue */
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #155db4; /* Darker Facebook blue */
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #444;
+    }
+
+    #shareBtn {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 25px 20px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2><center>Penghitung Umur</center></h2>
+
+    <label for="day">Tanggal Lahir</label>
+    <select id="day"></select>
+
+    <label for="month">Bulan Lahir</label>
+    <select id="month"></select>
+
+    <label for="year">Tahun Lahir</label>
+    <select id="year"></select>
+
+    <button onclick="hitungUmur()">Hitung Usia</button>
+
+    <div class="result" id="usiaResult"></div>
+    <div class="result" id="ultahResult"></div>
+    <button id="shareBtn" onclick="shareWhatsApp()">Kasih Tahu Teman di Whatsapp Hari Ulang Tahunku</button>
+  </div>
+
+  <script>
+    const daySelect = document.getElementById("day");
+    const monthSelect = document.getElementById("month");
+    const yearSelect = document.getElementById("year");
+
+    for (let i = 1; i <= 31; i++) {
+      daySelect.innerHTML += `<option value="${i}">${i}</option>`;
+    }
+
+    const bulan = [
+      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    bulan.forEach((bln, idx) => {
+      monthSelect.innerHTML += `<option value="${idx}">${bln}</option>`;
+    });
+
+    const thisYear = new Date().getFullYear();
+    for (let i = thisYear; i >= 1900; i--) {
+      yearSelect.innerHTML += `<option value="${i}">${i}</option>`;
+    }
+
+    let selectedBirthDate;
+    let nextBirthdayGlobal;
+
+    function hitungUmur() {
+      const d = parseInt(daySelect.value);
+      const m = parseInt(monthSelect.value);
+      const y = parseInt(yearSelect.value);
+
+      selectedBirthDate = new Date(y, m, d);
+      const today = new Date();
+      let nextBirthday = new Date(today.getFullYear(), m, d);
+
+      if (nextBirthday < today) {
+        nextBirthday.setFullYear(today.getFullYear() + 1);
+      }
+
+      nextBirthdayGlobal = nextBirthday;
+
+      let usiaTahun = today.getFullYear() - y;
+      let usiaBulan = today.getMonth() - m;
+      let usiaHari = today.getDate() - d;
+
+      if (usiaHari < 0) {
+        usiaBulan--;
+        usiaHari += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+
+      if (usiaBulan < 0) {
+        usiaTahun--;
+        usiaBulan += 12;
+      }
+
+      const selisihWaktu = nextBirthday - today;
+      const selisihHari = Math.ceil(selisihWaktu / (1000 * 60 * 60 * 24));
+
+      const usiaStr = `Usia Kamu: ${usiaTahun} tahun, ${usiaBulan} bulan, ${usiaHari} hari`;
+      const ulangStr = `Ulang Tahun Berikutnya: ${selisihHari} hari lagi (${nextBirthday.getDate()} ${bulan[nextBirthday.getMonth()]} ${nextBirthday.getFullYear()})`;
+
+      document.getElementById("usiaResult").innerText = usiaStr;
+      document.getElementById("ultahResult").innerText = ulangStr;
+      document.getElementById("shareBtn").style.display = "inline-block";
+    }
+
+    function shareWhatsApp() {
+      const d = daySelect.value;
+      const m = monthSelect.value;
+      const y = yearSelect.value;
+      const birthText = `${d} ${bulan[m]} ${y}`;
+
+      const today = new Date();
+      let nextBirthday = new Date(today.getFullYear(), m, d);
+      if (nextBirthday < today) nextBirthday.setFullYear(today.getFullYear() + 1);
+      const selisihHari = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
+      const ultahText = `${selisihHari} hari lagi (${nextBirthday.getDate()} ${bulan[nextBirthday.getMonth()]} ${nextBirthday.getFullYear()})`;
+
+      const message = `Aku lahir pada ${birthText}. Sepertinya ${ultahText} ulang tahun`;
+      const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    }
+  </script>
+
+</body>
+</html>
+
