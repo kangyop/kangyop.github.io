@@ -11,20 +11,399 @@
       </div>
     </div>
 <br>
-<section class="app-bar">
-  <div class="app" onclick="navigateWithRipple(event, 'https://kangyop.github.io/blog')">
-    <div class="app-icon">📰</div>
-    <div class="app-title">BLOG</div>
+<html lang="id">
+  <head>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<style>
+@font-face {
+  font-family: 'ThinFont';
+  src: url('fonts/thin.ttf') format('truetype');
+}
+    * {
+      box-sizing: border-box;
+    }
+
+
+
+
+
+    .window {
+      background: #ffffffcc;
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 620px;
+    }
+
+    .titlebar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .titlebar .buttons {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .titlebar .buttons div {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .close { background-color: #ff5f57; }
+    .minimize { background-color: #ffbd2e; }
+    .maximize { background-color: #28c840; }
+
+    h1 {
+      flex: 1;
+      text-align: center;
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #1877f2;
+    }
+
+    .app-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .app {
+      background-color: #ffffffcc;
+      border-radius: 14px;
+      padding: 0.75rem;
+      text-align: center;
+      color: #2f3640;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+
+    .app:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .app-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .app-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    .about-button {
+      background: none;
+      border: none;
+      color: #1877f2;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .popup, .overlay {
+      display: none;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      
+      padding: 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 480px;
+      z-index: 1000;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+      z-index: 999;
+    }
+
+    .popup-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .popup-buttons div {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .popup .close { background-color: #ff5f57; cursor: pointer; }
+    .popup .minimize { background-color: #ffbd2e; }
+    .popup .maximize { background-color: #28c840; }
+
+    .popup p {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .popup a {
+      background-color: #25D366;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      font-size: 0.9rem;
+    }
+
+    .about-section {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #333;
+    }
+
+    .about-section strong {
+      display: block;
+      margin-top: 0.4rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .app-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.6rem;
+      }
+
+      .app {
+        padding: 0.65rem;
+      }
+
+      .app-icon {
+        font-size: 1.4rem;
+      }
+
+      .app-title {
+        font-size: 0.85rem;
+      }
+    }
+</style>
+  </head>
+  <body>
+		<h1>Aplikasi Web</h1>
+	  </div>
+	  <div class="app-bar">
+		<div class="app" onclick="navigateWithRipple(event, 'file:///android_asset/birthday.html')">
+		  <div class="app-icon">🎂</div>
+		  <div class="app-title">Kalkulator Usia</div>
+		</div>
+		<div class="app" onclick="navigateWithRipple(event, 'file:///android_asset/piket.html')">
+		  <div class="app-icon">📆</div>
+		  <div class="app-title">Kalkulator Piket</div>
+		</div>
+		<div class="app" onclick="navigateWithRipple(event, 'file:///android_asset/wa.html')">
+		  <div class="app-icon">📣</div>
+		  <div class="app-title">WhatsApp Broadcast</div>
+		</div>
+<div class="app" onclick="navigateWithRipple(event, 'file:///android_asset/libur.html')">
+		  <div class="app-icon">📆</div>
+		  <div class="app-title">Hari Libur</div>
+		</div>
+<div class="app" onclick="navigateWithRipple(event, 'file:///android_asset/kegiatan.html')">
+  <div class="app-icon">🗓️</div>
+  <div class="app-title">Jadwal Kegiatan</div>
+</div>
+		<div class="app" onclick="navigateWithRipple(event, 'file:///android_asset/bmii.html')">
+		  <div class="app-icon">🏋️‍♂️</div>
+		  <div class="app-title">Kalkulator BMI</div>
+		</div> 
+<div class="app" onclick="navigateWithRipple(event, 'file:///android_asset/notepad.html')">
+  <div class="app-icon">📝</div>
+  <div class="app-title">Fast Notepad</div>
+</div>
+<div class="app" onclick="navigateWithRipple(event, 'file:///android_asset/generator.html')">
+		  <div class="app-icon">🔐</div>
+		  <div class="app-title">Proxy Generator</div>
+		</div>
+	  </div>
+
+<div class="footer">
+  <button class="about-button" onclick="openPopup()">About</button>
+  <button class="about-button" onclick="openHidePopup()">Sembunyikan</button>
+</div>
+
+	</div>
+
+	<div class="overlay" id="overlay" onclick="closePopup()"></div>
+	<div class="popup" id="popup">
+	  <div class="popup-header">
+		<div class="popup-buttons">
+		  <div class="close" onclick="closePopup()"></div>
+		  <div class="minimize"></div>
+		  <div class="maximize"></div>
+		</div>
+	  </div>
+	  <p>Website ini dibuat berdasarkan kebutuhan pengembang, jika kamu ada ide. Kamu bisa menghubungi pengembang melalui tombol di bawah ini:</p>
+	  <a href="https://wa.me/6285155153923?text=Halo%20pengembang%2C%20saya%20mempunyai%20ide%20untuk%20penambahan%20fitur%20di%20website%20wb-seblak.biz.id" target="_blank">Hubungi Pengembang</a>
+
+
+
+
+	</div>
+<div class="popup" id="hide-popup">
+  <div class="popup-header">
+    <div class="popup-buttons">
+      <div class="close" onclick="closeHidePopup()"></div>
+      <div class="minimize"></div>
+      <div class="maximize"></div>
+    </div>
   </div>
-  <div class="app" onclick="navigateWithRipple(event, 'https://kangyop.github.io/projects')">
-    <div class="app-icon">🛠️</div>
-    <div class="app-title">PROJECTS</div>
-  </div>
-  <div class="app" onclick="navigateWithRipple(event, 'https://kangyop.github.io/apps')">
-    <div class="app-icon">📱</div>
-    <div class="app-title">APPS</div>
-  </div>
-</section>
+  <p>Silahkan pilih aplikasi yang ingin kamu sembunyikan:</p>
+  <div id="hide-list"></div>
+  <button onclick="applyHide()" style="margin-top:10px; background-color:#1877f2; color:white; border:none; padding:0.5rem 1rem; border-radius:8px;">Simpan</button>
+</div>
+
+<script>
+    function navigateWithRipple(e, url) {
+      const ripple = document.createElement("span");
+      ripple.className = "ripple";
+      const rect = e.currentTarget.getBoundingClientRect();
+      ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + "px";
+      ripple.style.left = e.clientX - rect.left - (parseInt(ripple.style.width) / 2) + "px";
+      ripple.style.top = e.clientY - rect.top - (parseInt(ripple.style.height) / 2) + "px";
+      e.currentTarget.appendChild(ripple);
+
+      setTimeout(() => {
+        window.location.href = url;
+      }, 250);
+    }
+
+    function openPopup() {
+      document.getElementById("popup").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+
+    let currentAppIndex = 0;
+    const apps = document.querySelectorAll('.app-description');
+
+    function showPreviousApp() {
+      if (currentAppIndex > 0) {
+        currentAppIndex--;
+      }
+      updateAppDescription();
+    }
+
+    function showNextApp() {
+      if (currentAppIndex < apps.length - 1) {
+        currentAppIndex++;
+      }
+      updateAppDescription();
+    }
+
+    function updateAppDescription() {
+      const appDescriptions = document.querySelectorAll('.app-description');
+      appDescriptions.forEach((app, index) => {
+        if (index === currentAppIndex) {
+          app.classList.add('show');
+        } else {
+          app.classList.remove('show');
+        }
+      });
+    }
+
+    updateAppDescription(); // Initialize app descriptions visibility
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", loadHiddenApps);
+
+  function openHidePopup() {
+    const appTitles = document.querySelectorAll('.app-title');
+    const hideList = document.getElementById('hide-list');
+    hideList.innerHTML = '';
+    appTitles.forEach((title, index) => {
+      const appId = `app-${index}`;
+      const isHidden = getHiddenApps().includes(appId);
+      hideList.innerHTML += `
+        <label style="display:block; margin-bottom:5px;">
+          <input type="checkbox" class="hide-checkbox" data-index="${index}" ${isHidden ? 'checked' : ''}>
+          ${title.textContent}
+        </label>`;
+    });
+    document.getElementById("hide-popup").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+  }
+
+  function closeHidePopup() {
+    document.getElementById("hide-popup").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+  }
+
+  function applyHide() {
+    const checkboxes = document.querySelectorAll('.hide-checkbox');
+    const hiddenApps = [];
+    checkboxes.forEach(checkbox => {
+      const index = checkbox.dataset.index;
+      const appId = `app-${index}`;
+      const app = document.querySelectorAll('.app')[index];
+      if (checkbox.checked) {
+        app.style.display = 'none';
+        hiddenApps.push(appId);
+      } else {
+        app.style.display = '';
+      }
+    });
+    localStorage.setItem('hiddenApps', JSON.stringify(hiddenApps));
+    closeHidePopup();
+  }
+
+  function loadHiddenApps() {
+    const hiddenApps = getHiddenApps();
+    hiddenApps.forEach(appId => {
+      const index = appId.split('-')[1];
+      const app = document.querySelectorAll('.app')[index];
+      if (app) app.style.display = 'none';
+    });
+  }
+
+  function getHiddenApps() {
+    return JSON.parse(localStorage.getItem('hiddenApps')) || [];
+  }
+</script>
+
+  </body>
+</html>
+
+
 
 	  
     <p class="text-muted wow animated slideInUp" data-wow-delay=".15s">{{ site.description }}</p>
