@@ -48,6 +48,18 @@ Menurut **Kementerian Kesehatan Republik Indonesia**, kategori BMI untuk orang d
 
 ---
 
+## Coba Simulasi BMI Online!
+
+✨ Penulis juga telah menyediakan **halaman simulasi BMI interaktif** yang bisa Anda coba langsung melalui browser.
+
+🔗 **[Klik di sini untuk menghitung BMI Anda](https://kangyop.internetan.biz.id/app/bmii.html)**
+
+Yang menarik, hasil perhitungan bisa langsung **dikirim ke WhatsApp** Anda atau orang yang ingin Anda bantu cek status kesehatannya.
+
+Cocok untuk digunakan oleh tenaga kesehatan, guru, atau siapa pun yang ingin melakukan skrining cepat terhadap status gizi!
+
+---
+
 ## Kelebihan dan Keterbatasan BMI
 
 ### ✅ Kelebihan:
