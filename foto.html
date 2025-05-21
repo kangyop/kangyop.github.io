@@ -28,6 +28,26 @@
       box-shadow: 0 3px 10px rgba(0,0,0,0.1);
       margin-bottom: 10px;
     }
+		    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    footer a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+	footer a.black-link {
+  color: #000;
+  text-decoration: none;
+}
+footer a.black-link:hover {
+  text-decoration: underline;
+}
   </style>
 </head>
 <body>
@@ -55,7 +75,10 @@
     </div>
     <p id="salahKode" class="text-danger mt-3 hidden">❌ Kode salah. Coba lagi.</p>
   </div>
-
+<footer>
+  <p>© 2025 <a href="https://kangyop.github.io" target="_blank" class="black-link"><strong>KangYop</strong></a> · 
+  <a href="https://linktr.ee/akademik_sr" target="_blank">Web Akademik SR</a></p>
+</footer>
   <script>
     function periksaKode() {
       const input = document.getElementById("kodeakses").value.trim().toLowerCase();
