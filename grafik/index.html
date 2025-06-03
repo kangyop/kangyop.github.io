@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tumbuh Kembang Anak</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tumbuh Kembang Anak</h1>
+            <div class="toggle-buttons">
+                <button id="toggleBerat" class="active">Grafik Berat</button>
+                <button id="toggleTinggi">Grafik Tinggi</button>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Data Anak</h2>
+            <form id="childForm">
+                <label for="fullName">Nama Lengkap:</label>
+                <input type="text" id="fullName" required>
+
+                <label for="dob">Tanggal Lahir:</label>
+                <input type="date" id="dob" required>
+
+                <button type="submit">Simpan Data Anak</button>
+            </form>
+        </div>
+
+        <div class="chart-section">
+            <h2>Grafik Tumbuh Kembang</h2>
+            <canvas id="growthChart"></canvas>
+            <div class="chart-navigation">
+                <button id="prevMonth">&lt; Bulan Sebelumnya</button>
+                <span id="currentMonthDisplay">Bulan: 1</span>
+                <button id="nextMonth">Bulan Selanjutnya &gt;</button>
+            </div>
+            <div class="classification-info">
+                <h3>Klasifikasi Pertumbuhan:</h3>
+                <p id="classificationText">Data belum tersedia.</p>
+            </div>
+        </div>
+
+        <div class="data-entry-section">
+            <h2>Tambah Data Cek</h2>
+            <form id="dataEntryForm">
+                <label for="checkDate">Tanggal Cek:</label>
+                <input type="date" id="checkDate" required>
+
+                <label for="weight">Berat Badan (kg):</label>
+                <input type="number" id="weight" step="0.01" required>
+
+                <label for="height">Tinggi Badan (cm):</label>
+                <input type="number" id="height" step="0.1" required>
+
+                <label for="headCirc">Lingkar Kepala (cm):</label>
+                <input type="number" id="headCirc" step="0.1">
+
+                <label for="lila">LILA (cm):</label>
+                <input type="number" id="lila" step="0.1">
+
+                <button type="submit">Tambah Data</button>
+            </form>
+        </div>
+
+        <div class="history-section">
+            <h2>Riwayat Data Cek</h2>
+            <div id="dataHistoryList">
+                <p>Belum ada data riwayat.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
