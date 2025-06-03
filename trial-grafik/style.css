@@ -1,0 +1,289 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #f0f2f5; /* Warna latar belakang lembut */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Elemen mulai dari atas */
+    min-height: 100vh; /* Pastikan tinggi minimum viewport */
+    box-sizing: border-box; /* Model kotak standar */
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 12px; /* Sudut membulat ala macOS */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    padding: 30px;
+    max-width: 900px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px; /* Jarak bawah jika ada scroll */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: #333;
+    font-size: 2.2em;
+    font-weight: 600; /* Font lebih tebal */
+}
+
+h2 {
+    color: #444;
+    font-size: 1.6em;
+    border-bottom: 1px solid #eee; /* Garis pemisah tipis */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 500;
+}
+
+/* Styling untuk input text, date, number, dan select */
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+    width: calc(100% - 20px); /* Kurangi padding horizontal */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); /* Bayangan dalam */
+    box-sizing: border-box; /* Penting untuk lebar yang konsisten */
+}
+
+/* Styling untuk select box */
+.select-wrapper {
+    position: relative;
+    display: block;
+    width: calc(100% - 20px); /* Samakan lebar dengan input lainnya */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    overflow: hidden; /* Sembunyikan panah default di beberapa browser */
+    box-sizing: border-box; /* Penting untuk lebar yang konsisten */
+}
+
+/* Panah kustom untuk select box */
+.select-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid #555;
+    border-bottom: 2px solid #555;
+    pointer-events: none; /* Agar klik tetap menembus ke select */
+}
+
+select {
+    -webkit-appearance: none; /* Sembunyikan panah default di WebKit (Safari, Chrome) */
+    -moz-appearance: none;    /* Sembunyikan panah default di Mozilla (Firefox) */
+    appearance: none;         /* Sembunyikan panah default standar */
+    width: 100%;
+    padding: 10px 12px; /* Padding untuk teks di dalam select */
+    background-color: transparent; /* Agar warna background dari wrapper terlihat */
+    border: none; /* Hapus border bawaan select */
+    border-radius: 6px;
+    font-size: 1em;
+    color: #333;
+    cursor: pointer;
+    outline: none; /* Hapus outline saat fokus */
+    box-sizing: border-box; /* Penting untuk padding yang benar */
+}
+
+/* Styling untuk placeholder (opsi pertama) */
+select option[value=""] {
+    color: #999; /* Warna teks abu-abu untuk placeholder */
+}
+
+/* Efek fokus untuk input dan select (wrapper) */
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+.select-wrapper:focus-within { /* Gunakan focus-within untuk wrapper select */
+    outline: none;
+    border-color: #007aff; /* Warna border fokus ala macOS */
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2); /* Bayangan biru saat fokus */
+}
+
+button {
+    background-color: #007aff; /* Biru khas macOS */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px; /* Sudut membulat untuk tombol */
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0, 122, 255, 0.2); /* Bayangan tombol */
+}
+
+button:hover {
+    background-color: #005bb5; /* Warna lebih gelap saat hover */
+    transform: translateY(-1px); /* Efek naik sedikit */
+}
+
+button:active {
+    background-color: #004c99; /* Warna lebih gelap saat diklik */
+    transform: translateY(0); /* Kembali ke posisi semula */
+}
+
+.chart-controls {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.chart-controls button {
+    background-color: #e0e0e0; /* Warna abu-abu untuk tombol tidak aktif */
+    color: #333;
+    margin: 0 5px;
+    box-shadow: none; /* Hilangkan bayangan untuk tombol tidak aktif */
+}
+
+.chart-controls button.active {
+    background-color: #007aff; /* Warna biru untuk tombol aktif */
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 122, 255, 0.2); /* Bayangan untuk tombol aktif */
+}
+
+.chart-section {
+    margin-bottom: 30px;
+    background-color: #fcfcfc; /* Warna latar belakang chart section */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* Bayangan dalam ringan */
+    display: flex; /* Menggunakan flexbox untuk tata letak */
+    flex-direction: column;
+    align-items: center;
+}
+
+canvas {
+    width: 100% !important; /* Penting untuk responsif */
+    max-height: 450px; /* Batasi tinggi maksimum grafik */
+    height: 400px; /* Tinggi default untuk Chart.js */
+    box-sizing: border-box;
+}
+
+.chart-navigation {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.chart-navigation button {
+    margin: 0 10px;
+}
+
+.classification-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e9f7ef; /* Latar belakang hijau muda */
+    border-left: 5px solid #28a745; /* Border kiri hijau */
+    border-radius: 8px;
+    color: #333;
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+.history-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.history-section li {
+    background-color: #f9f9f9; /* Latar belakang item riwayat */
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95em;
+    color: #444;
+}
+
+.history-section li span {
+    flex-grow: 1;
+}
+
+.history-section li .delete-btn {
+    background-color: #dc3545; /* Warna merah untuk hapus */
+    padding: 6px 12px;
+    font-size: 0.85em;
+    border-radius: 6px;
+    box-shadow: none; /* Hilangkan bayangan khusus tombol ini */
+}
+
+.history-section li .delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* --- Responsif untuk perangkat mobile --- */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .header h1 {
+        font-size: 1.8em;
+    }
+
+    h2 {
+        font-size: 1.4em;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    .select-wrapper {
+        width: 100%; /* Lebar penuh di ponsel */
+        padding: 10px 0; /* Sesuaikan padding untuk input dan select */
+    }
+
+    button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+
+    .chart-controls button {
+        display: block; /* Tombol grafik menjadi blok */
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    canvas {
+        height: 300px; /* Tinggi yang lebih kecil untuk layar ponsel */
+        max-height: 350px;
+    }
+
+    .history-section li {
+        flex-direction: column; /* Item riwayat menjadi kolom */
+        align-items: flex-start;
+    }
+
+    .history-section li .delete-btn {
+        margin-top: 10px;
+        width: auto;
+    }
+}

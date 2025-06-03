@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tumbuh Kembang Anak</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Data Tumbuh Kembang Anak</h1>
+        </div>
+
+        <div class="form-section">
+            <h2>Informasi Anak</h2>
+            <form id="child-info-form">
+                <div class="form-group">
+                    <label for="namaLengkap">Nama Lengkap:</label>
+                    <input type="text" id="namaLengkap" required>
+                </div>
+                <div class="form-group">
+                    <label for="tanggalLahir">Tanggal Lahir:</label>
+                    <input type="date" id="tanggalLahir" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Jenis Kelamin:</label>
+                    <div class="select-wrapper">
+                        <select id="gender" required>
+                            <option value="">Pilih Jenis Kelamin</option>
+                            <option value="male">Laki-laki</option>
+                            <option value="female">Perempuan</option>
+                        </select>
+                        <span class="select-arrow"></span>
+                    </div>
+                </div>
+                <button type="submit">Simpan Informasi</button>
+            </form>
+        </div>
+
+        <div class="chart-controls">
+            <button id="grafikBeratBtn" class="active">Grafik Berat</button>
+            <button id="grafikTinggiBtn">Grafik Tinggi</button>
+        </div>
+
+        <div class="chart-section">
+            <h2>Grafik Tumbuh Kembang</h2>
+            <canvas id="growthChart"></canvas>
+            <div class="chart-navigation">
+                <button id="prevMonth">Kiri</button>
+                <button id="nextMonth">Kanan</button>
+            </div>
+            <div id="chartClassification" class="classification-info">
+                </div>
+        </div>
+
+        <div class="data-input-section">
+            <h2>Tambah Data Cek</h2>
+            <form id="addDataForm">
+                <div class="form-group">
+                    <label for="tanggalCek">Tanggal Cek:</label>
+                    <input type="date" id="tanggalCek" required>
+                </div>
+                <div class="form-group">
+                    <label for="beratBadan">Berat Badan (kg):</label>
+                    <input type="number" id="beratBadan" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="tinggiBadan">Tinggi Badan (cm):</label>
+                    <input type="number" id="tinggiBadan" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="lingkarKepala">Lingkar Kepala (cm):</label>
+                    <input type="number" id="lingkarKepala" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="lila">LILA (Lingkar Lengan Atas) (cm):</label>
+                    <input type="number" id="lila" step="0.01" required>
+                </div>
+                <button type="submit">Tambah Data</button>
+            </form>
+        </div>
+
+        <div class="history-section">
+            <h2>Riwayat Data</h2>
+            <ul id="historyList">
+                </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/isBetween.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
