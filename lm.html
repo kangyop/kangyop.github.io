@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akun LMS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+            -webkit-backdrop-filter: blur(10px); /* For macOS-like blur */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 15px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus {
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+            outline: none;
+        }
+
+        button.submit-button {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button.submit-button:hover {
+            background-color: #005bb5;
+            transform: translateY(-2px);
+        }
+
+        button.submit-button:active {
+            transform: translateY(0);
+        }
+
+        .account-details {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #444;
+        }
+
+        .detail-item strong {
+            color: #222;
+            font-weight: 600;
+        }
+
+        .detail-value-wrapper {
+            display: flex;
+            align-items: center;
+            background-color: #f9f9f9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+
+        .detail-value {
+            flex-grow: 1;
+            overflow-wrap: break-word;
+            word-break: break-all;
+        }
+
+        .copy-button {
+            background: none;
+            border: none;
+            color: #007aff;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            padding: 5px 8px;
+            border-radius: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-button:hover {
+            background-color: #e6f2ff;
+            color: #005bb5;
+        }
+
+        .whatsapp-button {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #25d366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #1ea955;
+            transform: translateY(-2px);
+        }
+
+        .whatsapp-button:active {
+            transform: translateY(0);
+        }
+
+        #errorMessage {
+            color: #ff3b30;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://kangyop.internetan.biz.id/images/logostikes.png" style="height: 95px;" alt="logo">
+            <h1>Akun LMS</h1>
+        </div>
+        <div class="form-group">
+            <label for="npmInput">Masukkan NPM:</label>
+            <input type="text" id="npmInput" placeholder="Contoh: 0200270009">
+        </div>
+        <button class="submit-button" onclick="searchAccount()">Cari Akun</button>
+
+        <div id="accountResult" class="account-details hidden">
+            <div class="detail-item">
+                <strong>Nama Lengkap:</strong>
+                <div class="detail-value-wrapper">
+                    <span id="namaLengkap" class="detail-value"></span>
+                </div>
+            </div>
+            <div class="detail-item">
+                <strong>Username:</strong>
+                <div class="detail-value-wrapper">
+                    <span id="username" class="detail-value"></span>
+                    <button class="copy-button" onclick="copyToClipboard('username')">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                </div>
+            </div>
+            <div class="detail-item">
+                <strong>Password:</strong>
+                <div class="detail-value-wrapper">
+                    <span id="password" class="detail-value"></span>
+                    <button class="copy-button" onclick="copyToClipboard('password')">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                </div>
+            </div>
+            <button class="whatsapp-button" onclick="sendToWhatsApp()">
+                <i class="fab fa-whatsapp"></i> Kirim akun ke WhatsApp
+            </button>
+        </div>
+        <center><p id="errorMessage" class="hidden">NPM tidak ditemukan. Mohon periksa kembali.</p><p>Setelah mendapatkan akun, kamu bisa login di menu LMS pada <a href="https://linktr.ee/akademik_sr">HALAMAN AKADEMIK</a></p></center>
+    </div>
+
+    <script>
+        let accountData = [];
+        let foundAccount = null;
+
+        // Nonaktifkan klik kanan
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Muat data akun dari file JSON saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('accounts.json') // Pastikan path ini benar
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    accountData = data;
+                    console.log('Data akun berhasil dimuat:', accountData);
+                })
+                .catch(error => {
+                    console.error('Gagal memuat data akun:', error);
+                    document.getElementById('errorMessage').textContent = 'Gagal memuat data akun. Mohon coba lagi nanti.';
+                    document.getElementById('errorMessage').classList.remove('hidden');
+                });
+        });
+
+        function searchAccount() {
+            const npmInput = document.getElementById('npmInput').value.trim();
+            const accountResultDiv = document.getElementById('accountResult');
+            const errorMessageDiv = document.getElementById('errorMessage');
+
+            // Pastikan data akun sudah dimuat sebelum mencari
+            if (accountData.length === 0) {
+                errorMessageDiv.textContent = 'Data akun belum siap. Mohon coba lagi dalam beberapa saat.';
+                errorMessageDiv.classList.remove('hidden');
+                accountResultDiv.classList.add('hidden');
+                return;
+            }
+
+            foundAccount = accountData.find(account => account.Username === npmInput);
+
+            if (foundAccount) {
+                document.getElementById('namaLengkap').textContent = foundAccount['Nama Lengkap'];
+                document.getElementById('username').textContent = foundAccount.Username;
+                document.getElementById('password').textContent = foundAccount.Password;
+                accountResultDiv.classList.remove('hidden');
+                errorMessageDiv.classList.add('hidden');
+            } else {
+                accountResultDiv.classList.add('hidden');
+                errorMessageDiv.classList.remove('hidden');
+                errorMessageDiv.textContent = 'NPM tidak ditemukan. Mohon periksa kembali.';
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    alert('Berhasil disalin: ' + textToCopy);
+                })
+                .catch(err => {
+                    console.error('Gagal menyalin: ', err);
+                });
+        }
+
+        function sendToWhatsApp() {
+            if (foundAccount) {
+                const namaLengkap = foundAccount['Nama Lengkap'];
+                const username = foundAccount.Username;
+                const password = foundAccount.Password;
+                const message = `Halo ${namaLengkap}, ini akun LMS kamu.\n \nUsername : ${username}\nPassword : ${password}\n \nSilahkan masuk lms melalui link https://linktr.ee/akademik_sr`;
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            } else {
+                alert('Silahkan cari akun terlebih dahulu!');
+            }
+        }
+    </script>
+</body>
+</html>
