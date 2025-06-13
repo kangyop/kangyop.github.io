@@ -191,6 +191,71 @@
         .hidden {
             display: none;
         }
+
+        /* Gaya untuk container tombol baru */
+        .button-group {
+            display: flex;
+            gap: 10px; /* Mengurangi jarak antar tombol */
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        /* Gaya untuk tombol LOGIN */
+        .login-button {
+            flex: 1;
+            padding: 8px 15px; /* Mengurangi padding */
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px; /* Mengurangi ukuran font */
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            max-width: 150px; /* Menentukan lebar maksimum */
+        }
+
+        .login-button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        /* Gaya untuk tombol HUBUNGI KAMI */
+        .contact-button {
+            flex: 1;
+            padding: 8px 15px; /* Mengurangi padding */
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px; /* Mengurangi ukuran font */
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px; /* Mengurangi jarak antara ikon dan teks */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            max-width: 150px; /* Menentukan lebar maksimum */
+        }
+
+        .contact-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .contact-button:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -212,7 +277,7 @@
                 <span id="num2" style="font-weight: bold; font-size: 1.1em;"></span>
                 <span style="font-weight: bold; font-size: 1.1em;">+</span>
                 <span id="num3" style="font-weight: bold; font-size: 1.1em;">=</span>
-                <input type="text" id="captchaInput" placeholder="Jawaban Anda" style="width: 120px;">
+                <input type="text" id="captchaInput" placeholder="Jawaban" style="width: 120px;">
             </div>
             <p id="captchaError" class="hidden" style="color: #ff3b30; margin-top: 5px;">Jawaban captcha salah.</p>
         </div>
@@ -247,7 +312,14 @@
                 <i class="fab fa-whatsapp"></i> Kirim akun ke WhatsApp
             </button>
         </div>
-        <center><p id="errorMessage" class="hidden">NPM tidak ditemukan. Mohon periksa kembali.</p><p>Setelah mendapatkan akun, kamu bisa login di menu LMS pada <a href="https://linktr.ee/akademik_sr">HALAMAN AKADEMIK</a></p></center>
+        <center><p id="errorMessage" class="hidden">NPM tidak ditemukan. Mohon periksa kembali.</p><p>Setelah mendapatkan akun, <br>kamu bisa login di menu LMS </p></center>
+
+        <div class="button-group">
+            <a href="https://linktr.ee/akademik_sr" class="login-button" target="_blank">LOGIN DI LMS</a>
+            <a href="https://wa.me/6285155153923" class="contact-button" target="_blank">
+                <i class="fab fa-whatsapp"></i> HUBUNGI KAMI
+            </a>
+        </div>
     </div>
 
     <script>
