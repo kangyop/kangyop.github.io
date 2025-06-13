@@ -203,6 +203,19 @@
             <label for="npmInput">Masukkan NPM:</label>
             <input type="text" id="npmInput" placeholder="Contoh: 0200270009">
         </div>
+
+        <div class="form-group" id="captchaSection">
+            <label for="captchaInput">Selesaikan Penjumlahan Berikut:</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span id="num1" style="font-weight: bold; font-size: 1.1em;"></span>
+                <span style="font-weight: bold; font-size: 1.1em;">+</span>
+                <span id="num2" style="font-weight: bold; font-size: 1.1em;"></span>
+                <span style="font-weight: bold; font-size: 1.1em;">+</span>
+                <span id="num3" style="font-weight: bold; font-size: 1.1em;">=</span>
+                <input type="text" id="captchaInput" placeholder="Jawaban Anda" style="width: 120px;">
+            </div>
+            <p id="captchaError" class="hidden" style="color: #ff3b30; margin-top: 5px;">Jawaban captcha salah.</p>
+        </div>
         <button class="submit-button" onclick="searchAccount()">Cari Akun</button>
 
         <div id="accountResult" class="account-details hidden">
@@ -240,13 +253,28 @@
     <script>
         let accountData = [];
         let foundAccount = null;
+        let captchaAnswer = 0; // Untuk menyimpan jawaban captcha yang benar
 
         // Nonaktifkan klik kanan
         document.addEventListener('contextmenu', event => event.preventDefault());
 
+        // Fungsi untuk menghasilkan dan menampilkan captcha
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1; // Angka 1-10
+            const num2 = Math.floor(Math.random() * 10) + 1; // Angka 1-10
+            const num3 = Math.floor(Math.random() * 10) + 1; // Angka 1-10
+            captchaAnswer = num1 + num2 + num3;
+
+            document.getElementById('num1').textContent = num1;
+            document.getElementById('num2').textContent = num2;
+            document.getElementById('num3').textContent = num3;
+            document.getElementById('captchaInput').value = ''; // Kosongkan input jawaban
+            document.getElementById('captchaError').classList.add('hidden'); // Sembunyikan pesan error
+        }
+
         // Muat data akun dari file JSON saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('accounts.json') // Pastikan path ini benar
+            fetch('accounts.json') // Pastikan path ini benar. Jika di subfolder, contoh: 'data/accounts.json'
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
@@ -256,6 +284,7 @@
                 .then(data => {
                     accountData = data;
                     console.log('Data akun berhasil dimuat:', accountData);
+                    generateCaptcha(); // Panggil fungsi generateCaptcha setelah data dimuat
                 })
                 .catch(error => {
                     console.error('Gagal memuat data akun:', error);
@@ -266,14 +295,29 @@
 
         function searchAccount() {
             const npmInput = document.getElementById('npmInput').value.trim();
+            const captchaInput = document.getElementById('captchaInput').value.trim();
             const accountResultDiv = document.getElementById('accountResult');
             const errorMessageDiv = document.getElementById('errorMessage');
+            const captchaErrorDiv = document.getElementById('captchaError');
+
+            // Reset tampilan pesan error
+            accountResultDiv.classList.add('hidden');
+            errorMessageDiv.classList.add('hidden');
+            captchaErrorDiv.classList.add('hidden');
+
+            // Validasi Captcha terlebih dahulu
+            if (parseInt(captchaInput) !== captchaAnswer) {
+                captchaErrorDiv.classList.remove('hidden');
+                errorMessageDiv.textContent = 'Jawaban penjumlahan salah. Mohon coba lagi.';
+                errorMessageDiv.classList.remove('hidden');
+                generateCaptcha(); // Buat captcha baru
+                return; // Hentikan proses jika captcha salah
+            }
 
             // Pastikan data akun sudah dimuat sebelum mencari
             if (accountData.length === 0) {
                 errorMessageDiv.textContent = 'Data akun belum siap. Mohon coba lagi dalam beberapa saat.';
                 errorMessageDiv.classList.remove('hidden');
-                accountResultDiv.classList.add('hidden');
                 return;
             }
 
@@ -285,10 +329,12 @@
                 document.getElementById('password').textContent = foundAccount.Password;
                 accountResultDiv.classList.remove('hidden');
                 errorMessageDiv.classList.add('hidden');
+                generateCaptcha(); // Buat captcha baru setelah berhasil
             } else {
                 accountResultDiv.classList.add('hidden');
                 errorMessageDiv.classList.remove('hidden');
                 errorMessageDiv.textContent = 'NPM tidak ditemukan. Mohon periksa kembali.';
+                generateCaptcha(); // Buat captcha baru setelah gagal
             }
         }
 
